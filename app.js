@@ -1,15 +1,18 @@
 	var express = require('express'),
-		app = module.exports = express(),
-		server = require('http').createServer(app),
-		ent = require('ent'),
-		mongoose = require('mongoose');
-	
+	app         = module.exports = express(),
+	server      = require('http').createServer(app),
+	ent         = require('ent'),
+	ejs         = require('ejs'),
+	mongoose    = require('mongoose');
 	mongoose.connect('mongodb://localhost/it340');
+	
+	app.use(express.cookieParser('connect'));
+	app.use(express.bodyParser());
 
 	var listeAtelier = mongoose.Schema({
-		id: Number,
 		nom:String,
 		theme:String,
+		type:String,
 		duree:Number,
 		placerestante:Number,
 		publiccible:String,
@@ -23,7 +26,7 @@
 
 	//Détail des ateliers
 	app.get('/atelier/:id', function (req, res) {
-		res.end('Détail ateliers');
+		res.end('detail ateliers');
 
 		//res.render('atelier.ejs', {id: req.params.id});
 	});
@@ -36,7 +39,7 @@
 
 	// Supression d'un atelier
 	app.delete('/atelier/:id', function (req, res){
-	  	Atelier.findByIdAndRemove(req.params.id, function (err, atelier) {
+		Atelier.findByIdAndRemove(req.params.id, function (err, atelier) {
 			if (err) {
 				console.log("Erreur suppression");
 				res.send(500, { error: err })
@@ -49,6 +52,62 @@
 			}
 		});
 	});
+
+
+
+
+	app.post('/atelier', function(req, res){
+	//**Ajout des ateleir POST **//
+		var nom_             = req.body.nom;
+		var type_            = req.body.type;
+		var duree_           = req.body.duree;
+		var placesRestantes_ = req.body.placesRestantes;
+		var publicCible_     = req.body.publicCible;
+		var contenu_         = req.body.contenu;
+		var description_     = req.body.description;
+		var partenaires_     = req.body.partenaires;
+		var theme_           = req.body.theme;
+		var laboratoire_     = req.body.laboratoire;
+
+		var newAtelier = new Atelier({
+			nom:nom_,
+			type:type_,
+			theme:theme_,
+			duree:duree_,
+			placerestante:placesRestantes_,
+			publiccible:publicCible_,
+			contenu:contenu_,
+			description:description_,
+			partenaire:partenaires_,
+			laboratoire:laboratoire_
+		});
+
+		newAtelier.save(function (err, newAtelier) {
+			if (err) 
+				return res.send(500, { error: err })
+			else{
+				return	res.send(200);
+			}
+		});
+
+	})
+
+
+
+	//Fonction debug
+	app.get('/get',function(req,res){
+		/**DebugFonction qui permet de lister la totalité de la base**/
+		Atelier.find().exec(function(err, listeAtel){
+			if(err) console.error(err);
+			else{
+				console.log(listeAtel);
+				res.end('Console');
+			}
+		})
+	});
+
+
+
 
 	console.log("Server running listening on port 8080 ...");
 
