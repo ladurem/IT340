@@ -18,10 +18,6 @@
 	});
 
 
-	// app.get('/:fichier', function (req, res) {
- //       res.sendfile(__dirname + '/'+req.params.fichier);
- //     })
-
 	var listeAtelier = mongoose.Schema({
 		nom:String,
 		theme:String,
