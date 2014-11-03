@@ -57,7 +57,7 @@
 			} else if (atelier) {
 				console.log("Liste Ateliers");
 				//res.render('atelier.ejs', {id: req.params.id});1
-				res.json(bears);
+				res.json(ateliers);
 				res.send(200);
 			} else {
 				console.log("Atelier non trouvé")
@@ -122,7 +122,6 @@
 
 })
 
-
 	app.post('/atelier', function(req, res){
 	//**Ajout des atelier POST **//
 	var nom_             = req.body.nom;
@@ -158,11 +157,6 @@
 	});
 
 })
-
-
-
-
-	app.put
 
 
 
