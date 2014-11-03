@@ -26,8 +26,8 @@
 
 	//Détail d'un atelier
 	app.get('/atelier/:id', function (req, res) {
-		res.send('detail ateliers'+req.params.id);
-		Atelier.find(req.params.id,function(err,atelier){
+		
+		Atelier.find({ _id: req.params.id },function (err,atelier) {
 			if (err) {
 				console.log("Erreur Détails atelier");
 				res.send(500, { error: err });
@@ -49,15 +49,14 @@
 
 	//Liste des ateliers
 	app.get('/ateliers', function (req, res) {
-		res.send("Liste des ateliers");
-		Atelier.find(function(err,atelier){
+		Atelier.find(function (err,atelier) {
 			if (err) {
 				console.log("Erreur Liste Ateliers");
 				res.send(500, { error: err });
 			} else if (atelier) {
 				console.log("Liste Ateliers");
-				//res.render('atelier.ejs', {id: req.params.id});1
-				res.json(ateliers);
+				//res.render('atelier.ejs', {id: req.params.id});
+				res.json(atelier);
 				res.send(200);
 			} else {
 				console.log("Atelier non trouvé")
