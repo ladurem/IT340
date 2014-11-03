@@ -2,12 +2,25 @@
 	app         = module.exports = express(),
 	server      = require('http').createServer(app),
 	ent         = require('ent'),
-	ejs         = require('ejs'),
+	swig 		= require('swig'),
 	mongoose    = require('mongoose');
 	mongoose.connect('mongodb://localhost/it340');
 	
 	app.use(express.cookieParser('connect'));
 	app.use(express.bodyParser());
+	// This is where all the magic happens!
+	app.engine('html', swig.renderFile);
+
+	app.set('view engine', 'html');
+	app.set('views', __dirname + '/views');
+	app.configure(function(){
+	    app.use(express.static(__dirname + '/public'));
+	});
+
+
+	// app.get('/:fichier', function (req, res) {
+ //       res.sendfile(__dirname + '/'+req.params.fichier);
+ //     })
 
 	var listeAtelier = mongoose.Schema({
 		nom:String,
@@ -55,9 +68,7 @@
 				res.send(500, { error: err });
 			} else if (atelier) {
 				console.log("Liste Ateliers");
-				//res.render('atelier.ejs', {id: req.params.id});
-				res.json(atelier);
-				res.send(200);
+				res.render('liste', {ateliers: atelier});
 			} else {
 				console.log("Atelier non trouvé")
 				res.send(404);

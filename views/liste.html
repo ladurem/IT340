@@ -1,0 +1,65 @@
+{% extends 'layout.html' %}
+
+{% block title %}Liste Ateliers{% endblock %}
+
+
+{% block content %}
+
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Circuit Scientifique<!-- <img src="img/logo.png" /> --></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+        	<ul class="nav navbar-nav">
+       			<li class="active"><a href="#">Accueil</a></li>
+       			<li class=""><a href="#">Informations Pratiques</a></li>
+       			<li class=""><a href="#">Demande de subvention</a></li>
+       			<li class=""><a href="#">Metier de la recherche</a></li>
+       		</ul>
+        </div>
+      </div>
+    </nav>
+    <div class="container">
+    	<div class="row">
+    		<div class="col-md-8">
+    			<h1>Liste des Ateliers</h1>
+    		</div>
+    		<div class="col-md-4" id="add-atelier-button">
+    			<button type="button" class="btn btn-danger">Action</button>
+    		</div>
+    	</div>
+    	<div class="row">
+    		<div class="col-sm-6">
+          {% for atelier in ateliers %}
+	    			<div class="row item-atelier">
+	    				<div class="col-xs-12">
+	    					<h4>{{ atelier.nom }}</h4>
+	    				</div>
+	    				<div class="col-xs-6">
+	    					<span><strong>Thème: </strong></span>
+	    					<ul>
+                  {% for theme_item in atelier.theme %}
+	    							<li>{{ theme_item }}</li>
+	    						{% endfor %}
+	    					</ul>
+	    				</div>
+	    				<div class="col-xs-6">
+	    					<span><strong>Durée: </strong></span>{{ atelier.duree }}
+	    					<span><strong>Laboratoire: </strong></span>{{ atelier.laboratoire }}
+	    				</div>
+	    			</div>
+    			{% endfor %}
+    		</div>
+    		<div class="col-sm-6">
+    			
+    		</div>
+    	</div>
+    </div>
+{% endblock %}
