@@ -57,7 +57,7 @@
 			} else if (atelier) {
 				console.log("Liste Ateliers");
 				//res.render('atelier.ejs', {id: req.params.id});1
-				res.json(bears);
+				res.json(ateliers);
 				res.send(200);
 			} else {
 				console.log("Atelier non trouvé")
@@ -83,16 +83,6 @@
 			}
 		});
 	});
-
-	// app.delete(function(req, res) {
-	// 	Atelier.remove({id: req.params.atelier_id}, function(err, bear) {
-	// 		if (err)
-	// 			res.send(err);
-
-	// 		res.json({ message: 'Successfully deleted'});
-	// 	});
-
-
 
 	app.post('/atelier', function(req, res){
 	//**Ajout des atelier POST **//
