@@ -14,7 +14,7 @@
 		theme:String,
 		type:String,
 		duree:Number,
-		placerestante:Number,
+		placesrestantes:Number,
 		publiccible:String,
 		contenu:String,
 		description:String,
@@ -24,17 +24,48 @@
 	});
 	var Atelier = mongoose.model('Atelier', listeAtelier);
 
-	//Détail des ateliers
+	//Détail d'un atelier
 	app.get('/atelier/:id', function (req, res) {
-		res.end('detail ateliers');
+		res.send('detail ateliers'+req.params.id);
+		Atelier.find(req.params.id,function(err,atelier){
+			if (err) {
+				console.log("Erreur Détails atelier");
+				res.send(500, { error: err });
+			} else if (atelier) {
+				console.log("Détails atelier");
+				//res.render('atelier.ejs', {id: req.params.id});
+				res.json(atelier);
+				res.send(200);
+			} else {
+				console.log("Atelier non trouvé")
+				res.send(404);
+			}		
+		} 
 
-		//res.render('atelier.ejs', {id: req.params.id});
+		)
+
+		
 	});
 
 	//Liste des ateliers
 	app.get('/ateliers', function (req, res) {
-		res.end("Liste des ateliers");
-		//res.render('ateliers.ejs');
+		res.send("Liste des ateliers");
+		Atelier.find(function(err,atelier){
+			if (err) {
+				console.log("Erreur Liste Ateliers");
+				res.send(500, { error: err });
+			} else if (atelier) {
+				console.log("Liste Ateliers");
+				//res.render('atelier.ejs', {id: req.params.id});1
+				res.json(bears);
+				res.send(200);
+			} else {
+				console.log("Atelier non trouvé")
+				res.send(404);
+			}		
+		} 
+
+		)
 	});
 
 	// Supression d'un atelier
@@ -53,44 +84,51 @@
 		});
 	});
 
+	// app.delete(function(req, res) {
+	// 	Atelier.remove({id: req.params.atelier_id}, function(err, bear) {
+	// 		if (err)
+	// 			res.send(err);
+
+	// 		res.json({ message: 'Successfully deleted'});
+	// 	});
 
 
 
 	app.post('/atelier', function(req, res){
-	//**Ajout des ateleir POST **//
-		var nom_             = req.body.nom;
-		var type_            = req.body.type;
-		var duree_           = req.body.duree;
-		var placesRestantes_ = req.body.placesRestantes;
-		var publicCible_     = req.body.publicCible;
-		var contenu_         = req.body.contenu;
-		var description_     = req.body.description;
-		var partenaires_     = req.body.partenaires;
-		var theme_           = req.body.theme;
-		var laboratoire_     = req.body.laboratoire;
+	//**Ajout des atelier POST **//
+	var nom_             = req.body.nom;
+	var type_            = req.body.type;
+	var duree_           = req.body.duree;
+	var placesRestantes_ = req.body.placesRestantes;
+	var publicCible_     = req.body.publicCible;
+	var contenu_         = req.body.contenu;
+	var description_     = req.body.description;
+	var partenaires_     = req.body.partenaires;
+	var theme_           = req.body.theme;
+	var laboratoire_     = req.body.laboratoire;
 
-		var newAtelier = new Atelier({
-			nom:nom_,
-			type:type_,
-			theme:theme_,
-			duree:duree_,
-			placerestante:placesRestantes_,
-			publiccible:publicCible_,
-			contenu:contenu_,
-			description:description_,
-			partenaire:partenaires_,
-			laboratoire:laboratoire_
-		});
+	var newAtelier = new Atelier({
+		nom:nom_,
+		type:type_,
+		theme:theme_,
+		duree:duree_,
+		placesrestantes:placesRestantes_,
+		publiccible:publicCible_,
+		contenu:contenu_,
+		description:description_,
+		partenaire:partenaires_,
+		laboratoire:laboratoire_
+	});
 
-		newAtelier.save(function (err, newAtelier) {
-			if (err) 
-				return res.send(500, { error: err })
-			else{
-				return	res.send(200);
-			}
-		});
+	newAtelier.save(function (err, newAtelier) {
+		if (err) 
+			return res.send(500, { error: err })
+		else{
+			return	res.send(200);
+		}
+	});
 
-	})
+})
 
 
 
