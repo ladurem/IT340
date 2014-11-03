@@ -83,6 +83,44 @@
 		});
 	});
 
+	app.post('/atelier/:id', function(req, res){
+	//**Edition des ateliers**//
+	var id_              = req.params.id;
+	var nom_             = req.body.nom;
+	var type_            = req.body.type;
+	var duree_           = req.body.duree;
+	var placesRestantes_ = req.body.placesRestantes;
+	var publicCible_     = req.body.publicCible;
+	var contenu_         = req.body.contenu;
+	var description_     = req.body.description;
+	var partenaires_     = req.body.partenaires;
+	var theme_           = req.body.theme;
+	var laboratoire_     = req.body.laboratoire;
+
+	Atelier.findById(id_, function (err, editAtelier) {
+		if (err) return handleError(err);
+
+		editAtelier.nom             = nom_;
+		editAtelier.type            = type_;
+		editAtelier.theme           = theme_;
+		editAtelier.duree           = duree_;
+		editAtelier.placesrestantes = placesRestantes_;
+		editAtelier.publiccible     = publicCible_;
+		editAtelier.contenu         = contenu_;
+		editAtelier.description     = description_;
+		editAtelier.partenaire      = partenaires_;
+		editAtelier.laboratoire     = laboratoire_;
+
+		editAtelier.save(function (err) {
+			if (err) 
+				return res.send(500, { error: err })
+			else
+				return	res.send(200);
+		});
+	});
+
+})
+
 	app.post('/atelier', function(req, res){
 	//**Ajout des atelier POST **//
 	var nom_             = req.body.nom;
@@ -112,9 +150,9 @@
 	newAtelier.save(function (err, newAtelier) {
 		if (err) 
 			return res.send(500, { error: err })
-		else{
+		else
 			return	res.send(200);
-		}
+		
 	});
 
 })
