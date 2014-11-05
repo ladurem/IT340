@@ -27,14 +27,14 @@
 
 	var listeAtelier = mongoose.Schema({
 		nom:String,
-		theme:String,
+		theme:[],
 		type:String,
 		duree:Number,
 		placesrestantes:Number,
-		publiccible:String,
+		publiccible:[],
 		contenu:String,
 		description:String,
-		partenaire:String,
+		partenaire:[],
 		laboratoire:String
 
 	});
