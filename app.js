@@ -14,7 +14,7 @@
 	app.set('view engine', 'html');
 	app.set('views', __dirname + '/views');
 	app.configure(function(){
-	    app.use(express.static(__dirname + '/public'));
+		app.use(express.static(__dirname + '/public'));
 	});
 
 	// Swig will cache templates for you, but you can disable
@@ -29,7 +29,8 @@
 		nom:String,
 		theme:[],
 		type:String,
-		duree:Number,
+		date:[],
+		lieu:String,
 		placesrestantes:Number,
 		publiccible:[],
 		contenu:String,
@@ -102,7 +103,8 @@
 	var id_              = req.params.id;
 	var nom_             = req.body.nom;
 	var type_            = req.body.type;
-	var duree_           = req.body.duree;
+	var date_            = req.body.date;
+	var lieu_            = req.body.lieu;
 	var placesRestantes_ = req.body.placesRestantes;
 	var publicCible_     = req.body.publicCible;
 	var contenu_         = req.body.contenu;
@@ -117,7 +119,9 @@
 		editAtelier.nom             = nom_;
 		editAtelier.type            = type_;
 		editAtelier.theme           = theme_;
-		editAtelier.duree           = duree_;
+		editAtelier.date          	= date_;
+		editAtelier.lieu          	= lieu_;
+		editAtelier.lieu          	= lieu_;
 		editAtelier.placesrestantes = placesRestantes_;
 		editAtelier.publiccible     = publicCible_;
 		editAtelier.contenu         = contenu_;
@@ -135,13 +139,20 @@
 
 })
 
+
+	app.get('/atelier',function(req,res){
+		//Formulaire dajout atelier
+		res.render('creationatelier');
+	});
+
 	app.post('/atelier', function(req, res){
 	//**Ajout des atelier POST **//
 	var nom_             = req.body.nom;
 	var type_            = req.body.type;
-	var duree_           = req.body.duree;
+	var date_   	     = req.body.date;
 	var placesRestantes_ = req.body.placesRestantes;
 	var publicCible_     = req.body.publicCible;
+	var lieu_     		 = req.body.lieu;
 	var contenu_         = req.body.contenu;
 	var description_     = req.body.description;
 	var partenaires_     = req.body.partenaires;
@@ -152,7 +163,8 @@
 		nom:nom_,
 		type:type_,
 		theme:theme_,
-		duree:duree_,
+		date:date_,
+		lieu:lieu,
 		placesrestantes:placesRestantes_,
 		publiccible:publicCible_,
 		contenu:contenu_,
