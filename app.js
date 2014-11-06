@@ -49,9 +49,7 @@
 				res.send(500, { error: err });
 			} else if (atelier) {
 				console.log("Détails atelier");
-				//res.render('atelier.ejs', {id: req.params.id});
-				res.json(atelier);
-				res.send(200);
+				res.render('atelier', {atelier_details: atelier});
 			} else {
 				console.log("Atelier non trouvé")
 				res.send(404);
