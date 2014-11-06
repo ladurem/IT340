@@ -27,20 +27,20 @@
       </div>
     </nav>
     <div class="container">
-    	<div class="row">
+    	<div class="row" id="toolbar">
     		<div class="col-md-8">
     			<h1>Liste des Ateliers</h1>
     		</div>
     		<div class="col-md-4" id="add-atelier-button">
-    			<button type="button" class="btn btn-danger">Action</button>
+    			<button type="button" class="btn btn-success">Créer une fiche Atelier</button>
     		</div>
     	</div>
     	<div class="row">
-    		<div class="col-sm-6">
+    		<div class="col-sm-6 atelier-container">
           {% for atelier in ateliers %}
-	    			<div class="row item-atelier">
+	    			<div id="{{ atelier.nom|lower|replace('\s', '-') }}" class="row item-atelier">
 	    				<div class="col-xs-12">
-	    					<h4>{{ atelier.nom }}</h4>
+	    					<h3>{{ atelier.nom }}</h3>
 	    				</div>
 	    				<div class="col-xs-6">
 	    					<span><strong>Thème: </strong></span>
@@ -51,14 +51,15 @@
 	    					</ul>
 	    				</div>
 	    				<div class="col-xs-6">
-	    					<span><strong>Durée: </strong></span>{{ atelier.duree }}
+	    					<span><strong>Durée: </strong></span>{{ atelier.duree }} <br/>
 	    					<span><strong>Laboratoire: </strong></span>{{ atelier.laboratoire }}
 	    				</div>
 	    			</div>
+            <div class="spacer row"><div class="mask"></div></div>
     			{% endfor %}
     		</div>
     		<div class="col-sm-6">
-    			
+    			<div id="map_canvas"></div>
     		</div>
     	</div>
     </div>
