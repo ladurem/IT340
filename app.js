@@ -33,6 +33,10 @@ var ateliers = require('./controllers/Ateliers');
 
 app.get('/ateliers', ateliers.index);
 
+app.get('/atelier/new', ateliers.new);
+
+app.post('/atelier', ateliers.create);
+
 app.get('/atelier/:id', ateliers.show);
 
 app.delete('/atelier/:id', ateliers.delete);
@@ -41,16 +45,12 @@ app.get('/atelier/:id/edit', ateliers.edit);
 
 app.post('/atelier/:id', ateliers.update);
 
-app.get('/atelier/new', ateliers.new);
-
-app.post('/atelier', ateliers.create);
-
 
 
 //Fonction debug
 app.get('/get',function(req,res){
 	/**DebugFonction qui permet de lister la totalité de la base**/
-	Atelier.find().exec(function(err, listeAtel){
+	mongoose.model('Atelier').find().exec(function(err, listeAtel){
 		if(err) console.error(err);
 		else{
 			console.log(listeAtel);
