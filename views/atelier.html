@@ -1,0 +1,121 @@
+{% extends 'layout.html' %}
+
+{% block title %}Détails ateliers{% endblock %}
+{% block content %}
+
+<link href="/css/atelier_details.css" rel="stylesheet">
+<link id="bsdp-css" href="/css/datepicker3.css" rel="stylesheet">
+<script src="/js/bootstrap-datepicker.js"></script>
+<script src="/js/bootstrap-datepicker.fr.js"></script>
+
+
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="#">Circuit Scientifique<!-- <img src="img/logo.png" /> --></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+			<ul class="nav navbar-nav">
+				<li class="active"><a href="#">Accueil</a></li>
+				<li class=""><a href="#">Informations Pratiques</a></li>
+				<li class=""><a href="#">Demande de subvention</a></li>
+				<li class=""><a href="#">Metier de la recherche</a></li>
+			</ul>
+		</div>
+	</div>
+</nav>
+<div class="container jumbotron well" id="details">
+	<button type="button" class="close" data-dismiss="modal">
+		<span aria-hidden="true">×</span>
+		<span class="sr-only">Close</span>
+	</button>
+	<h1 class="page-header-bis">Détails ateliers</h1>
+	{% for atelier in atelier_details %}
+	<ul id="myTab" class="nav nav-tabs" role="tablist">
+		<li role="presentation" ><a href="#home" id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true">Informations</a></li>
+		<li role="presentation" class="active">
+			<a href="#profile" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile">Horaires</a>
+		</li>
+	</ul>
+
+
+	<div id="tab_details" class="tab-content">
+		<div role="tabpanel" class="tab-pane fade " id="home" aria-labelledBy="home-tab">
+			<p>
+				<div class="col-sm-6">
+					<div><strong>Nom: </strong>{{ atelier.nom }}</div>
+					<div><strong>Type: </strong>{{ atelier.type }}</div>
+					<div><strong>Durée: </strong>{{ atelier.duree }}</div>
+				</div>
+				<div class="col-sm-6">
+					<div><strong>Laboratoire: </strong>{{ atelier.laboratoire }}</div>
+					<div><strong>Places restantes: </strong>{{ atelier.placesrestantes }}</div>
+					<div><strong>Contenu: </strong>{{ atelier.contenu }}</div>
+				</div>
+
+				<span><strong>Thème(s): </strong></span>
+				<ul>
+					{% for theme_item in atelier.theme %}
+					<li>{{ theme_item }}</li>
+					{% endfor %}
+				</ul>
+				<span><strong>Public ciblé: </strong></span>
+				<ul>
+					{% for publiccible_item in atelier.publiccible %}
+					<li>{{ publiccible_item }}</li>
+					{% endfor %}
+				</ul>
+
+			</p>
+		</div>
+		<div role="tabpanel" class="tab-pane fade in active" id="profile" aria-labelledBy="profile-tab">
+			<div class="col-sm-6">
+				<div id="map_canvas"></div>
+			</div>
+			<div class="col-sm-6 text-center">
+				<p>Horaires</p>
+				<div class="datepicker"></div>
+			</div>
+		</div>
+	</div>
+	<div>
+		<div>
+			<span><strong>Partenaires: </strong></span>
+			<ul>
+				{% for partenaire_item in atelier.partenaire %}
+				<li>{{ partenaire_item }}</li>
+				{% endfor %}
+			</ul>
+		</div>
+		<div class="col-sm-12">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h3 class="panel-title">Description</h3>
+				</div>
+				<div class="panel-body">
+					{{ atelier.description }}
+				</div>
+			</div>
+		</div>
+		<button type="button" class="btn btn-lg btn-danger">Fermer</button>
+	</div>
+	
+
+
+	{% endfor %}
+</div>
+
+<script type="text/javascript">
+	$('.datepicker').datepicker({
+		language: 'fr'
+	}
+	);
+
+</script>
+{% endblock content%}
