@@ -9,7 +9,6 @@ var AtelierSchema = mongoose.Schema({
 	lieu:String,
 	capacite:Number,
 	publicCible:[],
-	contenu:String,
 	description:String,
 	partenaire:[],
 	laboratoire:String
