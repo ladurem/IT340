@@ -67,8 +67,23 @@
  * Edition d'un atelier
  */
  exports.edit = function (req, res) {
-
+ 	Atelier.find({ _id: req.params.id },function (err,atelier) {
+ 		if (err) {
+ 			res.send(500, { error: err });
+ 		} else if (atelier) {
+ 			console.log("Edition atelier");
+ 			res.render('editionatelier', {edit: atelier,id:req.params.id});
+ 		} else {
+ 			console.log("Atelier non trouvé")
+ 			res.send(404);
+ 		}		
+ 	});
  };
+
+ /**
+ * Post Edition d'un atelier
+ */
+
 
 
 /**

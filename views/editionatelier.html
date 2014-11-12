@@ -1,0 +1,186 @@
+{% extends 'layout.html' %}
+
+{% block title %}Edition Ateliers{% endblock %}
+
+
+{% block content %}
+
+<script>
+  $(document).ready(function() {
+    var index = 1;
+    $('.ajouterdate').click(function(event) {
+      event.preventDefault();
+      $('.horaire').html('Dates &amp; heures')
+      $(".ajoutdate").append('<div class="col-md-4"><input id="date" name="date['+index+'][0]" type="date" placeholder="type" class="form-control input-md"></div><div class="col-md-4"><input id="heuredebut" name="date['+index+'][1]" type="time" placeholder="heurein" class="form-control input-md"></div><div class="col-md-4"><input id="heurefin" name="date['+index+'][2]" type="time" placeholder="heureout" class="form-control input-md"></div>');
+      index = index+1;
+    });
+    $(".ajoutertheme").click(function(event) {
+      event.preventDefault();
+      $(".ajouttheme").append('<input id="theme" name="theme[]" type="text" placeholder="" class="form-control input-md">');
+
+    });  
+    $(".ajouterpublic").click(function(event) {
+     event.preventDefault();
+     $(".ajoutpublic").append(' <input id="public" name="publicCible[]" type="text" placeholder="" class="form-control input-md" >');
+
+   });
+    $(".ajouterpartenaire").click(function(event) {
+      event.preventDefault();
+      $(".ajoutpartenaire").append(' <input id="public" name="partenaires[]" type="text" placeholder="" class="form-control input-md" >');
+
+    });
+
+  });
+</script>
+
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/ateliers">Circuit Scientifique<!-- <img src="img/logo.png" /> --></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+     <ul class="nav navbar-nav">
+      <li class="active"><a href="#">Accueil</a></li>
+      <li class=""><a href="#">Informations Pratiques</a></li>
+      <li class=""><a href="#">Demande de subvention</a></li>
+      <li class=""><a href="#">Metier de la recherche</a></li>
+    </ul>
+  </div>
+</div>
+</nav>
+<div class="container">
+  <div class="row clearfix">
+    <div class="col-md-12 column">
+          {% for atelier in edit %}
+      <form class="form-horizontal" action="/atelier/{{atelier.id}}" method="POST">
+        <fieldset>
+
+          <!-- Form Name -->
+          <legend>Edition - {{ atelier.nom }}</legend>
+
+
+          <!-- Text input-->
+          <div class="form-group">
+            <label class="col-md-2 control-label" for="nom">Titre définitif </label>  
+            <div class="col-md-8">
+              <input id="nom" name="nom" type="text" value="{{ atelier.nom }}" placeholder="Titre Atelier" class="form-control input-md" >
+
+            </div>
+          </div>
+
+          <!-- Text input-->
+          <div class="form-group">
+            <label class="col-md-2 control-label" for="theme">Thème</label>  
+            <div class="col-md-8 ajouttheme">
+              {% for theme in atelier.theme %}
+
+              <input id="theme" name="theme[]" value="{{ theme }}" type="text" placeholder="" class="form-control input-md" >
+              {% endfor %}
+            </div>
+            <a  class="ajoutertheme"  href="">Ajouter</a>
+          </div>
+
+          <!-- Text input-->
+          <div class="form-group">
+            <label class="col-md-2 control-label" for="type">Type</label>  
+            <div class="col-md-8">
+              <input id="type" name="type" type="text"  value="{{ atelier.nom }}" placeholder="type" class="form-control input-md">
+
+            </div>
+          </div>
+
+
+          <!-- Text input-->
+          <div class="form-group ">
+            <label class="col-md-2 control-label horaire" for="date">Date &amp; heure</label>  
+            <div class="col-md-8 ajoutdate">
+              {% for date in atelier.date %}
+
+              <div class="col-md-4"><input id="date" name="date[0][0]"  value="{{ date[0] }}"  type="date" placeholder="type" class="form-control input-md">
+              </div>
+              <div class="col-md-4">
+                <input id="heuredebut" name="date[0][1]" type="time" value="{{ date[1] }}" placeholder="heurein" class="form-control input-md">
+              </div>
+              <div class="col-md-4">
+                <input id="heurefin" name="date[0][2]" type="time" value="{{ date[2] }}" placeholder="heureout" class="form-control input-md">
+              </div>
+              {% endfor %}
+            </div>
+            <a href=""  class="ajouterdate">Ajout date</a>
+          </div>
+
+          <!-- Search input-->
+          <div class="form-group">
+            <label class="col-md-2 control-label" for="laboratoire">Laboratoire</label>
+            <div class="col-md-8">
+              <input id="laboratoire" name="laboratoire" type="text" value="{{ atelier.laboratoire }}" placeholder="Recherche" class="form-control input-md" >
+
+            </div>
+          </div>
+
+          <!-- Textarea -->
+          <div class="form-group">
+            <label class="col-md-2 control-label" for="lieu">Lieu</label>
+            <div class="col-md-8">                     
+              <textarea class="form-control" id="lieu"  name="lieu">{{ atelier.lieu }}</textarea>
+            </div>
+          </div>
+
+          <!-- Text input-->
+          <div class="form-group">
+            <label class="col-md-2 control-label" for="capacité">Capacité</label>  
+            <div class="col-md-8">
+              <input id="capacité" name="capacite" type="number" value="{{ atelier.capacite }}" placeholder="" class="form-control input-md" >
+
+            </div>
+          </div>
+          <!-- Text input-->
+          <div class="form-group">
+            <label class="col-md-2 control-label" for="public">Public ciblé</label>  
+            <div class="col-md-8 ajoutpublic">
+             {% for public in atelier.publicCible %}
+             <input id="public" name="publicCible[]" type="text" value="{{ public }}" placeholder="" class="form-control input-md" >
+             {% endfor %}
+           </div>
+           <a  class="ajouterpublic" href="">Ajouter</a>
+         </div>
+
+         <!-- Text input-->
+         <div class="form-group">
+          <label class="col-md-2 control-label" for="partenaires">Partenaires</label>  
+          <div class="col-md-8 ajoutpartenaire">
+          {% for partenaire in atelier.partenaire %}
+           <input id="partenaires" name="partenaires[]" value="{{partenaire}}" type="text" placeholder="" class="form-control input-md" >
+           {% endfor %}
+         </div>
+         <a  class="ajouterpartenaire" href="">Ajouter</a>
+       </div>
+       <!-- Textarea -->
+       <div class="form-group">
+        <label class="col-md-2 control-label" for="description">Description atelier</label>
+        <div class="col-md-8">                     
+          <textarea class="form-control" id="description" name="description">{{ atelier.description }}</textarea>
+        </div>
+      </div>
+
+      <!-- Button -->
+      <div class="form-group">
+        <label class="col-md-2 control-label" for=""></label>
+        <div class="col-md-8">
+          <button id="" name="" class="btn btn-primary">Envoyer</button>
+        </div>
+      </div>
+      {% endfor %}
+    </fieldset>
+  </form>
+
+</div>
+</div>
+</div>
+{% endblock %}
