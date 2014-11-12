@@ -75,7 +75,8 @@
  * Mise à jour d'un atelier
  */
  exports.update = function (req, res) {
- 	var id_              = req.params.id,
+ 	var 
+ 	id_              = req.params.id,
  	nom_             = req.body.nom,
  	type_            = req.body.type,
  	date_            = req.body.date,
@@ -123,7 +124,8 @@
  * Creation d'un atelier
  */
  exports.create = function (req, res) {
- 	var nom_             = req.body.nom,
+ 	var 
+ 	nom_             = req.body.nom,
  	type_            = req.body.type,
  	date_   	     = req.body.date,
  	capacite_		 = req.body.capacite,

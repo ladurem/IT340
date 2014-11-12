@@ -56,7 +56,7 @@
 				<div class="col-sm-6">
 					<div><strong>Laboratoire: </strong>{{ atelier.laboratoire }}</div>
 					<div><strong>Capacité: </strong>{{ atelier.capacite }}</div>
-					<div><strong>Contenu: </strong>{{ atelier.contenu }}</div>
+					<div><strong>Contenu: </strong>{{ atelier.description }}</div>
 				</div>
 
 				<span><strong>Thème(s): </strong></span>
@@ -67,7 +67,7 @@
 				</ul>
 				<span><strong>Public ciblé: </strong></span>
 				<ul>
-					{% for publiccible_item in atelier.publiccible %}
+					{% for publiccible_item in atelier.publicCible %}
 					<li>{{ publiccible_item }}</li>
 					{% endfor %}
 				</ul>
