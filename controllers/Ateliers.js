@@ -80,7 +80,7 @@ var Atelier = mongoose.model('Atelier')
 		type_            = req.body.type,
 		date_            = req.body.date,
 		lieu_            = req.body.lieu,
-		placesRestantes_ = req.body.placesRestantes,
+		capacite_		 = req.body.capacite,
 		publicCible_     = req.body.publicCible,
 		contenu_         = req.body.contenu,
 		description_     = req.body.description,
@@ -96,7 +96,7 @@ var Atelier = mongoose.model('Atelier')
 		editAtelier.theme           = theme_;
 		editAtelier.date          	= date_;
 		editAtelier.lieu          	= lieu_;
-		editAtelier.placesRestantes = placesRestantes_;
+		editAtelier.capacite		= capacite_;
 		editAtelier.publicCible     = publicCible_;
 		editAtelier.contenu         = contenu_;
 		editAtelier.description     = description_;
@@ -128,7 +128,7 @@ var Atelier = mongoose.model('Atelier')
  	var nom_             = req.body.nom,
 		type_            = req.body.type,
 		date_   	     = req.body.date,
-		placesRestantes_ = req.body.placesRestantes,
+		capacite_		 = req.body.capacite,
 		publicCible_     = req.body.publicCible,
 		lieu_     		 = req.body.lieu,
 		contenu_         = req.body.contenu,
@@ -143,7 +143,7 @@ var Atelier = mongoose.model('Atelier')
 		theme:           theme_,
 		date:            date_,
 		lieu:            lieu_,
-		placesRestantes: placesRestantes_,
+		capacite:        capacite_,
 		publicCible:     publicCible_,
 		contenu:         contenu_,
 		description:     description_,
