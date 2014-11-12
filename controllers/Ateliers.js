@@ -96,8 +96,8 @@ var Atelier = mongoose.model('Atelier')
 		editAtelier.theme           = theme_;
 		editAtelier.date          	= date_;
 		editAtelier.lieu          	= lieu_;
-		editAtelier.placesrestantes = placesRestantes_;
-		editAtelier.publiccible     = publicCible_;
+		editAtelier.placesRestantes = placesRestantes_;
+		editAtelier.publicCible     = publicCible_;
 		editAtelier.contenu         = contenu_;
 		editAtelier.description     = description_;
 		editAtelier.partenaire      = partenaires_;
@@ -138,17 +138,17 @@ var Atelier = mongoose.model('Atelier')
 		laboratoire_     = req.body.laboratoire;
 
 	var newAtelier = new Atelier({
-		nom:nom_,
-		type:type_,
-		theme:theme_,
-		date:date_,
-		lieu:lieu,
-		placesrestantes:placesRestantes_,
-		publiccible:publicCible_,
-		contenu:contenu_,
-		description:description_,
-		partenaire:partenaires_,
-		laboratoire:laboratoire_
+		nom:             nom_,
+		type:            type_,
+		theme:           theme_,
+		date:            date_,
+		lieu:            lieu_,
+		placesRestantes: placesRestantes_,
+		publicCible:     publicCible_,
+		contenu:         contenu_,
+		description:     description_,
+		partenaire:      partenaires_,
+		laboratoire:     laboratoire_
 	});
 
 	newAtelier.save(function (err, newAtelier) {
