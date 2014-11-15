@@ -1,6 +1,6 @@
 {% extends 'layout.html' %}
 
-{% block title %}Ajout Ateliers{% endblock %}
+{% block title %}Edition Ateliers{% endblock %}
 
 
 {% block content %}
@@ -57,17 +57,19 @@
 <div class="container">
   <div class="row clearfix">
     <div class="col-md-12 column">
-      <form class="form-horizontal" action="/atelier" method="POST">
+          {% for atelier in edit %}
+      <form class="form-horizontal" action="/atelier/{{atelier.id}}" method="POST">
         <fieldset>
 
           <!-- Form Name -->
-          <legend>Créez une fiche atelier</legend>
+          <legend>Edition - {{ atelier.nom }}</legend>
+
 
           <!-- Text input-->
           <div class="form-group">
-            <label class="col-md-2 control-label" for="nom">Titre définitif</label>  
+            <label class="col-md-2 control-label" for="nom">Titre définitif </label>  
             <div class="col-md-8">
-              <input id="nom" name="nom" type="text" placeholder="Titre Atelier" class="form-control input-md" >
+              <input id="nom" name="nom" type="text" value="{{ atelier.nom }}" placeholder="Titre Atelier" class="form-control input-md" >
 
             </div>
           </div>
@@ -76,8 +78,10 @@
           <div class="form-group">
             <label class="col-md-2 control-label" for="theme">Thème</label>  
             <div class="col-md-8 ajouttheme">
-              <input id="theme" name="theme[]" type="text" placeholder="" class="form-control input-md" >
+              {% for theme in atelier.theme %}
 
+              <input id="theme" name="theme[]" value="{{ theme }}" type="text" placeholder="" class="form-control input-md" >
+              {% endfor %}
             </div>
             <a  class="ajoutertheme"  href="">Ajouter</a>
           </div>
@@ -86,7 +90,7 @@
           <div class="form-group">
             <label class="col-md-2 control-label" for="type">Type</label>  
             <div class="col-md-8">
-              <input id="type" name="type" type="text" placeholder="type" class="form-control input-md">
+              <input id="type" name="type" type="text"  value="{{ atelier.nom }}" placeholder="type" class="form-control input-md">
 
             </div>
           </div>
@@ -96,14 +100,17 @@
           <div class="form-group ">
             <label class="col-md-2 control-label horaire" for="date">Date &amp; heure</label>  
             <div class="col-md-8 ajoutdate">
-              <div class="col-md-4"><input id="date" name="date[0][0]" type="date" placeholder="type" class="form-control input-md">
+              {% for date in atelier.date %}
+
+              <div class="col-md-4"><input id="date" name="date[0][0]"  value="{{ date[0] }}"  type="date" placeholder="type" class="form-control input-md">
               </div>
               <div class="col-md-4">
-                <input id="heuredebut" name="date[0][1]" type="time" placeholder="heurein" class="form-control input-md">
+                <input id="heuredebut" name="date[0][1]" type="time" value="{{ date[1] }}" placeholder="heurein" class="form-control input-md">
               </div>
               <div class="col-md-4">
-                <input id="heurefin" name="date[0][2]" type="time" placeholder="heureout" class="form-control input-md">
+                <input id="heurefin" name="date[0][2]" type="time" value="{{ date[2] }}" placeholder="heureout" class="form-control input-md">
               </div>
+              {% endfor %}
             </div>
             <a href=""  class="ajouterdate">Ajout date</a>
           </div>
@@ -112,7 +119,7 @@
           <div class="form-group">
             <label class="col-md-2 control-label" for="laboratoire">Laboratoire</label>
             <div class="col-md-8">
-              <input id="laboratoire" name="laboratoire" type="text" placeholder="Recherche" class="form-control input-md" >
+              <input id="laboratoire" name="laboratoire" type="text" value="{{ atelier.laboratoire }}" placeholder="Recherche" class="form-control input-md" >
 
             </div>
           </div>
@@ -121,7 +128,7 @@
           <div class="form-group">
             <label class="col-md-2 control-label" for="lieu">Lieu</label>
             <div class="col-md-8">                     
-              <textarea class="form-control" id="lieu" name="lieu"></textarea>
+              <textarea class="form-control" id="lieu"  name="lieu">{{ atelier.lieu }}</textarea>
             </div>
           </div>
 
@@ -129,7 +136,7 @@
           <div class="form-group">
             <label class="col-md-2 control-label" for="capacité">Capacité</label>  
             <div class="col-md-8">
-              <input id="capacité" name="capacite" type="number" placeholder="" class="form-control input-md" >
+              <input id="capacité" name="capacite" type="number" value="{{ atelier.capacite }}" placeholder="" class="form-control input-md" >
 
             </div>
           </div>
@@ -137,41 +144,43 @@
           <div class="form-group">
             <label class="col-md-2 control-label" for="public">Public ciblé</label>  
             <div class="col-md-8 ajoutpublic">
-              <input id="public" name="publicCible[]" type="text" placeholder="" class="form-control input-md" >
+             {% for public in atelier.publicCible %}
+             <input id="public" name="publicCible[]" type="text" value="{{ public }}" placeholder="" class="form-control input-md" >
+             {% endfor %}
+           </div>
+           <a  class="ajouterpublic" href="">Ajouter</a>
+         </div>
 
-            </div>
-            <a  class="ajouterpublic" href="">Ajouter</a>
-          </div>
+         <!-- Text input-->
+         <div class="form-group">
+          <label class="col-md-2 control-label" for="partenaires">Partenaires</label>  
+          <div class="col-md-8 ajoutpartenaire">
+          {% for partenaire in atelier.partenaire %}
+           <input id="partenaires" name="partenaires[]" value="{{partenaire}}" type="text" placeholder="" class="form-control input-md" >
+           {% endfor %}
+         </div>
+         <a  class="ajouterpartenaire" href="">Ajouter</a>
+       </div>
+       <!-- Textarea -->
+       <div class="form-group">
+        <label class="col-md-2 control-label" for="description">Description atelier</label>
+        <div class="col-md-8">                     
+          <textarea class="form-control" id="description" name="description">{{ atelier.description }}</textarea>
+        </div>
+      </div>
 
-          <!-- Text input-->
-          <div class="form-group">
-            <label class="col-md-2 control-label" for="partenaires">Partenaires</label>  
-            <div class="col-md-8 ajoutpartenaire">
-              <input id="partenaires" name="partenaires[]" type="text" placeholder="" class="form-control input-md" >
+      <!-- Button -->
+      <div class="form-group">
+        <label class="col-md-2 control-label" for=""></label>
+        <div class="col-md-8">
+          <button id="" name="" class="btn btn-primary">Envoyer</button>
+        </div>
+      </div>
+      {% endfor %}
+    </fieldset>
+  </form>
 
-            </div>
-            <a  class="ajouterpartenaire" href="">Ajouter</a>
-          </div>
-          <!-- Textarea -->
-          <div class="form-group">
-            <label class="col-md-2 control-label" for="description">Description atelier</label>
-            <div class="col-md-8">                     
-              <textarea class="form-control" id="description" name="description"></textarea>
-            </div>
-          </div>
-
-          <!-- Button -->
-          <div class="form-group">
-            <label class="col-md-2 control-label" for=""></label>
-            <div class="col-md-8">
-              <button id="" name="" class="btn btn-primary">Envoyer</button>
-            </div>
-          </div>
-
-        </fieldset>
-      </form>
-
-    </div>
-  </div>
+</div>
+</div>
 </div>
 {% endblock %}

@@ -7,7 +7,7 @@ var AtelierSchema = mongoose.Schema({
 	type:String,
 	date:[],
 	lieu:String,
-	placesRestantes:Number,
+	capacite:Number,
 	publicCible:[],
 	description:String,
 	partenaire:[],
