@@ -33,8 +33,8 @@
 	<h1 class="page-header-bis">Détails ateliers</h1>
 	{% for atelier in atelier_details %}
 	<ul id="myTab" class="nav nav-tabs" role="tablist">
-		<li role="presentation" ><a href="#home" id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true">Informations</a></li>
-		<li role="presentation" class="active">
+		<li role="presentation" class="active"><a href="#home" id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true">Informations</a></li>
+		<li role="presentation" >
 			<a href="#profile" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile">Horaires</a>
 		</li>
 	</ul>
@@ -46,12 +46,12 @@
 			<div role="tabpanel" class="tab-pane fade in active" id="home" aria-labelledBy="home-tab">
 				<p>
 					<div><strong>Nom: </strong>{{ atelier.nom }}</div>
-					<!-- <div><strong>Date: </strong><span id="date">{{ atelier.date}}</span></div>
- -->
+					<div><strong>Date: </strong><span id="date">{{ atelier.date}}</span></div>
+
 					<div><strong>Type: </strong>{{ atelier.type }}</div>
 					<div><strong>Durée: </strong><span id ="duree"></span></div>
 					<div><strong>Laboratoire: </strong>{{ atelier.laboratoire }}</div>
-					<div><strong>Places restantes: </strong>{{ atelier.placesrestantes }}</div>
+					<div><strong>Places restantes: </strong>{{ atelier.placesRestantes }}</div>
 
 					<span><strong>Thème(s): </strong></span>
 					<ul>
@@ -83,7 +83,7 @@
 				{% endfor %}
 			</ul>
 		</div>
-		<div class="col-sm-12">
+		<div class="col-sm-12 marg-top">
 			<div class="panel panel-primary">
 				<div class="panel-heading">
 					<h3 class="panel-title">Description</h3>

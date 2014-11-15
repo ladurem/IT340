@@ -25,6 +25,11 @@
   }
 
 
+  .marg-top{
+    margin-top:25px;
+  }
+
+
   /* Everything but the jumbotron gets side spacing for mobile first views */
 /*.header,
 .marketing,
@@ -78,7 +83,7 @@
 }
 .marketing p + h4 {
   margin-top: 28px;
-  }*/
+  }
 
   /* Responsive: Portrait tablets and up */
 /*@media screen and (min-width: 768px) {
