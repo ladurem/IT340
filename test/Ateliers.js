@@ -18,7 +18,7 @@ describe('Ateliers tests', function() {
       theme:           [ 'Chimie', 'Physique', 'Math' ],
       date:            [],
       lieu:            "lieu_",
-      placesRestantes: 9,
+      capacite: 9,
       publicCible:     [ 'Lycée' ],
       description:     "description_",
       partenaire:      [ 'Partenaire1', 'Partenaire2' ],
@@ -42,7 +42,7 @@ describe('Ateliers tests', function() {
           res.body[0].nom.should.equal("Atelier1");                    
           res.body[0].type.should.equal("Atelier Scientifique");                    
           res.body[0].lieu.should.equal("lieu_");                    
-          res.body[0].placesRestantes.should.equal(9);                    
+          res.body[0].capacite.should.equal(9);                    
           res.body[0].theme.should.be.an.Array.and.have.length(3);                    
           res.body[0].date.should.be.an.Array.and.have.length(0);                    
           done();
@@ -70,7 +70,7 @@ describe('Ateliers tests', function() {
         .field('theme', 'Chimie')
         .field('theme', 'Math')
         .field('lieu', 'lieu_2')
-        .field('placesRestantes', '10')
+        .field('capacite', '10')
         .field('publicCible', 'Collège')
         .field('description', 'description2')
         .field('partenaire', 'Partenaire3')
@@ -96,7 +96,7 @@ describe('Ateliers tests', function() {
         atelier.nom.should.equal("Atelier2");                    
         atelier.type.should.equal("Atelier Scientifique");                    
         atelier.lieu.should.equal("lieu_2");                    
-        atelier.placesRestantes.should.equal(10);                    
+        atelier.capacite.should.equal(10);                    
         atelier.theme.should.be.an.Array.and.have.length(2);                    
         atelier.date.should.be.an.Array.and.have.length(0);                    
         done();
@@ -130,7 +130,7 @@ describe('Ateliers tests', function() {
         .field('type', 'Experience Scientifique')
         .field('theme', 'Math')
         .field('lieu', 'lieu_3')
-        .field('placesRestantes', '5')
+        .field('capacite', '5')
         .field('publicCible', 'Collège')
         .field('description', 'description2')
         .field('partenaire', 'Partenaire3')
@@ -156,7 +156,7 @@ describe('Ateliers tests', function() {
         atelier.nom.should.equal("Atelier2To3");                    
         atelier.type.should.equal("Experience Scientifique");                    
         atelier.lieu.should.equal("lieu_3");                    
-        atelier.placesRestantes.should.equal(5);                    
+        atelier.capacite.should.equal(5);                    
         atelier.theme.should.be.an.Array.and.have.length(1);                    
         atelier.date.should.be.an.Array.and.have.length(0);                    
         done();
@@ -190,7 +190,7 @@ describe('Ateliers tests', function() {
           res.body[0].nom.should.equal("Atelier2To3");                    
           res.body[0].type.should.equal("Experience Scientifique");                    
           res.body[0].lieu.should.equal("lieu_3");                    
-          res.body[0].placesRestantes.should.equal(5);                    
+          res.body[0].capacite.should.equal(5);                    
           res.body[0].theme.should.be.an.Array.and.have.length(1);                    
           res.body[0].date.should.be.an.Array.and.have.length(0);                     
           done();
@@ -260,7 +260,7 @@ describe('Ateliers tests', function() {
           res.body[0].nom.should.equal("Atelier2To3");                    
           res.body[0].type.should.equal("Experience Scientifique");                    
           res.body[0].lieu.should.equal("lieu_3");                    
-          res.body[0].placesRestantes.should.equal(5);                    
+          res.body[0].capacite.should.equal(5);                    
           res.body[0].theme.should.be.an.Array.and.have.length(1);                    
           res.body[0].date.should.be.an.Array.and.have.length(0);                    
           done();

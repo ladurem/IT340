@@ -2,8 +2,8 @@
  * Dependances
  */
 
-var mongoose = require('mongoose')
-var Atelier = mongoose.model('Atelier')
+ var mongoose = require('mongoose')
+ var Atelier = mongoose.model('Atelier')
 
 
 /**
@@ -79,8 +79,24 @@ var Atelier = mongoose.model('Atelier')
  * Edition d'un atelier
  */
  exports.edit = function (req, res) {
-
+ 	Atelier.find({ _id: req.params.id },function (err,atelier) {
+ 		if (err) {
+ 			res.send(500, { error: err });
+ 		} else if (atelier) {
+ 			res.render('editionatelier', {edit: atelier,id:req.params.id});
+ 		} else {
+ 			res.format({
+				json: function() { res.status(404).json({ error: 'Not found' }); },
+				html: function() { res.redirect(404, '/ateliers'); }
+			});
+ 		}		
+ 	});
  };
+
+ /**
+ * Post Edition d'un atelier
+ */
+
 
 
 /**
@@ -92,7 +108,7 @@ var Atelier = mongoose.model('Atelier')
 		type_            = req.body.type,
 		date_            = req.body.date,
 		lieu_            = req.body.lieu,
-		placesRestantes_ = req.body.placesRestantes,
+		capacite_        = req.body.capacite,
 		publicCible_     = req.body.publicCible,
 		description_     = req.body.description,
 		partenaires_     = req.body.partenaires,
@@ -107,7 +123,7 @@ var Atelier = mongoose.model('Atelier')
 		editAtelier.theme           = theme_;
 		editAtelier.date          	= date_;
 		editAtelier.lieu          	= lieu_;
-		editAtelier.placesRestantes = placesRestantes_;
+		editAtelier.capacite        = capacite_;
 		editAtelier.publicCible     = publicCible_;
 		editAtelier.description     = description_;
 		editAtelier.partenaire      = partenaires_;
@@ -142,7 +158,7 @@ var Atelier = mongoose.model('Atelier')
  	var nom_             = req.body.nom,
 		type_            = req.body.type,
 		date_   	     = req.body.date,
-		placesRestantes_ = req.body.placesRestantes,
+		capacite_        = req.body.capacite,
 		publicCible_     = req.body.publicCible,
 		lieu_     		 = req.body.lieu,
 		description_     = req.body.description,
@@ -156,7 +172,7 @@ var Atelier = mongoose.model('Atelier')
 		theme:           theme_,
 		date:            date_,
 		lieu:            lieu_,
-		placesRestantes: placesRestantes_,
+		capacite: capacite_,
 		publicCible:     publicCible_,
 		description:     description_,
 		partenaire:      partenaires_,

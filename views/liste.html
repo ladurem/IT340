@@ -30,68 +30,68 @@
 
 {% block content %}
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="/ateliers">Circuit Scientifique<!-- <img src="img/logo.png" /> --></a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-        	<ul class="nav navbar-nav">
-       			<li class="active"><a href="/ateliers">Accueil</a></li>
-       			<li class=""><a href="#">Informations Pratiques</a></li>
-       			<li class=""><a href="#">Demande de subvention</a></li>
-       			<li class=""><a href="#">Metier de la recherche</a></li>
-       		</ul>
-        </div>
-      </div>
-    </nav>
-    <div class="container">
-    	<div class="row" id="toolbar">
-    		<div class="col-md-8">
-    			<h1>Liste des Ateliers</h1>
-    		</div>
-    		<div class="col-md-4" id="add-atelier-button">
-    			<a href="/atelier/new" class="btn btn-success">Créer une fiche Atelier</a>
-    		</div>
-    	</div>
-    	<div class="row ">
-    		<div class="col-sm-6 atelier-container">
-          <div class="content">
-          {% for atelier in ateliers %}
-	    			<div id="{{ atelier.nom|lower|replace('\s', '-') }}" class="row item-atelier">
-	    				<div class="col-xs-8">
-	    					<h3><a href="/atelier/{{ atelier.id }}">{{ atelier.nom }}</a></h3>
-              </div>
-              <div class="col-xs-4">   
-                <span data-id="{{ atelier.id }}" class="remove_atelier glyphicon glyphicon-remove-circle pull-right" style="padding-top:15px; font-size:14pt; margin-left:5px;"></span>
-                <span data-id="{{ atelier.id }}" class="edit_atelier glyphicon glyphicon-edit pull-right" style="padding-top:15px; font-size:14pt; margin-left:5px;"></span>
-                <span class="clearfix"></span>
-	    				</div>
-	    				<div class="col-xs-6">
-	    					<span><strong>Thème: </strong></span>
-	    					<ul>
-                  {% for theme_item in atelier.theme %}
-	    							<li>{{ theme_item }}</li>
-	    						{% endfor %}
-	    					</ul>
-	    				</div>
-	    				<div class="col-xs-6">
-	    					<span><strong>Durée: </strong></span>{{ atelier.duree }} <br/>
-	    					<span><strong>Laboratoire: </strong></span>{{ atelier.laboratoire }}
-	    				</div>
-	    			</div>
-            <div class="spacer row"><div class="mask"></div></div>
-    			{% endfor %}
-          </div>
-    		</div>
-    		<div class="col-sm-6">
-    			<div id="map_canvas" class="map"></div>
-    		</div>
-    	</div>
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/ateliers">Circuit Scientifique<!-- <img src="img/logo.png" /> --></a>
     </div>
+    <div id="navbar" class="navbar-collapse collapse">
+    	<ul class="nav navbar-nav">
+   			<li class="active"><a href="/ateliers">Accueil</a></li>
+   			<li class=""><a href="#">Informations Pratiques</a></li>
+   			<li class=""><a href="#">Demande de subvention</a></li>
+   			<li class=""><a href="#">Metier de la recherche</a></li>
+   		</ul>
+    </div>
+  </div>
+</nav>
+<div class="container">
+	<div class="row" id="toolbar">
+		<div class="col-md-8">
+			<h1>Liste des Ateliers</h1>
+		</div>
+		<div class="col-md-4" id="add-atelier-button">
+			<a href="/atelier/new" class="btn btn-success">Créer une fiche Atelier</a>
+		</div>
+	</div>
+	<div class="row ">
+		<div class="col-sm-6 atelier-container">
+      <div class="content">
+      {% for atelier in ateliers %}
+  			<div id="{{ atelier.nom|lower|replace('\s', '-') }}" class="row item-atelier">
+  				<div class="col-xs-8">
+  					<h3><a href="/atelier/{{ atelier.id }}">{{ atelier.nom }}</a></h3>
+          </div>
+          <div class="col-xs-4">   
+            <span data-id="{{ atelier.id }}" class="remove_atelier glyphicon glyphicon-remove-circle pull-right" style="padding-top:15px; font-size:14pt; margin-left:5px;"></span>
+            <span data-id="{{ atelier.id }}" class="edit_atelier glyphicon glyphicon-edit pull-right" style="padding-top:15px; font-size:14pt; margin-left:5px;"></span>
+            <span class="clearfix"></span>
+  				</div>
+  				<div class="col-xs-6">
+  					<span><strong>Thème: </strong></span>
+  					<ul>
+              {% for theme_item in atelier.theme %}
+  							<li>{{ theme_item }}</li>
+  						{% endfor %}
+  					</ul>
+  				</div>
+  				<div class="col-xs-6">
+  					<span><strong>Durée: </strong></span>{{ atelier.duree }} <br/>
+  					<span><strong>Laboratoire: </strong></span>{{ atelier.laboratoire }}
+  				</div>
+  			</div>
+        <div class="spacer row"><div class="mask"></div></div>
+			{% endfor %}
+      </div>
+		</div>
+		<div class="col-sm-6">
+			<div id="map_canvas" class="map"></div>
+		</div>
+	</div>
+</div>
 {% endblock %}

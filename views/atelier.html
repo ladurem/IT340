@@ -18,7 +18,7 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-      		<a class="navbar-brand" href="/ateliers">Circuit Scientifique<!-- <img src="img/logo.png" /> --></a>
+			<a class="navbar-brand" href="/ateliers">Circuit Scientifique<!-- <img src="img/logo.png" /> --></a>
 		</div>
 		<div id="navbar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav">
@@ -55,8 +55,7 @@
 				</div>
 				<div class="col-sm-6">
 					<div><strong>Laboratoire: </strong>{{ atelier.laboratoire }}</div>
-					<div><strong>Places restantes: </strong>{{ atelier.placesrestantes }}</div>
-					<div><strong>Contenu: </strong>{{ atelier.contenu }}</div>
+					<div><strong>Capacité: </strong>{{ atelier.capacite }}</div>
 				</div>
 
 				<span><strong>Thème(s): </strong></span>
@@ -67,7 +66,7 @@
 				</ul>
 				<span><strong>Public ciblé: </strong></span>
 				<ul>
-					{% for publiccible_item in atelier.publiccible %}
+					{% for publiccible_item in atelier.publicCible %}
 					<li>{{ publiccible_item }}</li>
 					{% endfor %}
 				</ul>
