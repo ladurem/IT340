@@ -2,9 +2,33 @@
 
 {% block title %}Liste Ateliers{% endblock %}
 
+{% block head %}
+<script type="text/javascript">
+  $(document).ready(function() {
+      $(".edit_atelier").click(function() {
+        window.location.href= '/atelier/'+$(this).data("id")+'/edit';
+      });
+      $(".remove_atelier").click(function() {
+        $.ajax({
+          url: '/atelier/'+$(this).data("id"),
+          type: 'DELETE',
+          success: function(result) {
+            if (confirm("Voulez-vous vraiment supprimer cet atelier ?")) {
+              $(".atelier-container").load("/ateliers .atelier-container .content")
+            }
+          }
+        });
+      });
+    });
+</script>
+<style type="text/css">
+  .edit_atelier, .remove_atelier {
+    cursor: pointer;
+  }
+</style>
+{% endblock %}
 
 {% block content %}
-
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <div class="container">
         <div class="navbar-header">
@@ -18,7 +42,7 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
         	<ul class="nav navbar-nav">
-       			<li class="active"><a href="/atelier/">Accueil</a></li>
+       			<li class="active"><a href="/ateliers">Accueil</a></li>
        			<li class=""><a href="#">Informations Pratiques</a></li>
        			<li class=""><a href="#">Demande de subvention</a></li>
        			<li class=""><a href="#">Metier de la recherche</a></li>
@@ -35,12 +59,18 @@
     			<a href="/atelier/new" class="btn btn-success">Créer une fiche Atelier</a>
     		</div>
     	</div>
-    	<div class="row">
+    	<div class="row ">
     		<div class="col-sm-6 atelier-container">
+          <div class="content">
           {% for atelier in ateliers %}
 	    			<div id="{{ atelier.nom|lower|replace('\s', '-') }}" class="row item-atelier">
-	    				<div class="col-xs-12">
+	    				<div class="col-xs-8">
 	    					<h3><a href="/atelier/{{ atelier.id }}">{{ atelier.nom }}</a></h3>
+              </div>
+              <div class="col-xs-4">   
+                <span data-id="{{ atelier.id }}" class="remove_atelier glyphicon glyphicon-remove-circle pull-right" style="padding-top:15px; font-size:14pt; margin-left:5px;"></span>
+                <span data-id="{{ atelier.id }}" class="edit_atelier glyphicon glyphicon-edit pull-right" style="padding-top:15px; font-size:14pt; margin-left:5px;"></span>
+                <span class="clearfix"></span>
 	    				</div>
 	    				<div class="col-xs-6">
 	    					<span><strong>Thème: </strong></span>
@@ -57,9 +87,10 @@
 	    			</div>
             <div class="spacer row"><div class="mask"></div></div>
     			{% endfor %}
+          </div>
     		</div>
     		<div class="col-sm-6">
-    			<div id="map_canvas"></div>
+    			<div id="map_canvas" class="map"></div>
     		</div>
     	</div>
     </div>

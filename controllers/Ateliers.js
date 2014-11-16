@@ -10,16 +10,20 @@ var Atelier = mongoose.model('Atelier')
  * Liste des ateliers
  */
  exports.index = function (req, res) {
- 	Atelier.find(function (err,atelier) {
+ 	Atelier.find(function (err,ateliers) {
 		if (err) {
 			console.log("Erreur Liste Ateliers");
 			res.send(500, { error: err });
-		} else if (atelier) {
-			console.log("Liste Ateliers");
-			res.render('liste', {ateliers: atelier});
+		} else if (ateliers) {
+			res.format({
+				json: function() { res.json(ateliers); },
+				html: function() { res.render('liste', {ateliers: ateliers}); }
+			});
 		} else {
-			console.log("Atelier non trouvé")
-			res.send(404);
+			res.format({
+				json: function() { res.status(404).json({ error: 'Not found' }); },
+				html: function() { res.send(404); }
+			});
 		}		
 	});
  };
@@ -34,11 +38,15 @@ var Atelier = mongoose.model('Atelier')
 			console.log("Erreur Détails atelier");
 			res.send(500, { error: err });
 		} else if (atelier) {
-			console.log("Détails atelier");
-			res.render('atelier', {atelier_details: atelier});
+			res.format({
+				json: function() { res.json(atelier); },
+				html: function() { res.render('atelier', {atelier_details: atelier}); }
+			});
 		} else {
-			console.log("Atelier non trouvé")
-			res.send(404);
+			res.format({
+				json: function() { res.status(404).json({ error: 'Not found' }); },
+				html: function() { res.redirect(404, '/ateliers'); }
+			});
 		}		
 	});
  };
@@ -53,11 +61,15 @@ var Atelier = mongoose.model('Atelier')
 			console.log("Erreur suppression");
 			res.send(500, { error: err })
 		} else if (atelier) {
-			console.log("Atelier supprimé");
-			res.send(200)
+			res.format({
+				json: function() { res.status(200).json({ status: 'Deleted' }); },
+				html: function() { res.redirect(200, '/ateliers'); }
+			});
 		} else {
-			console.log("Atelier non trouvé")
-			res.send(404)
+			res.format({
+				json: function() { res.status(404).json({ error: 'Not found' }); },
+				html: function() { res.redirect(404, '/ateliers'); }
+			});
 		}
 	});
  };
@@ -104,8 +116,12 @@ var Atelier = mongoose.model('Atelier')
 		editAtelier.save(function (err) {
 			if (err) 
 				return res.send(500, { error: err })
-			else
-				return res.send(200);
+			else {
+				res.format({
+					json: function() { res.status(200).json({ status: 'Updated' }); },
+					html: function() { module.exports.index(req, res); } // To redirect to index after update
+				});
+			}
 		});
 	});
  };
@@ -150,8 +166,12 @@ var Atelier = mongoose.model('Atelier')
 	newAtelier.save(function (err, newAtelier) {
 		if (err) 
 			return res.send(500, { error: err })
-		else
-			return	res.send(200);
+		else {
+			res.format({
+				json: function() { res.status(201).json({ status: 'Created' }); },
+				html: function() { module.exports.index(req, res); } // To redirect to index after create
+			});
+		}
 		
 	});
  };
