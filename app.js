@@ -4,7 +4,11 @@ server      = require('http').createServer(app),
 ent         = require('ent'),
 swig 		= require('swig'),
 mongoose    = require('mongoose');
-mongoose.connect('mongodb://localhost/it340');
+if (!module.parent) {
+	mongoose.connect('mongodb://localhost/it340');
+} else {
+	mongoose.connect('mongodb://localhost/it340_test');
+}
 
 
 app.use(express.cookieParser('connect'));

@@ -9,6 +9,9 @@
 			"swig": "1.4.2",
 			"ent": "0.1.0",
 			"express": "3.3.8",
-			"mongoose": "3.8.9"
+			"mongoose": "3.8.9",
+			"mocha": "2.0",
+			"should": "4.3",
+			"supertest": "0.15"
 		}
 	}
