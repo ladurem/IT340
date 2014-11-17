@@ -5,7 +5,9 @@
 
 <link href="/css/atelier_details.css" rel="stylesheet">
 <link id="bsdp-css" href="/css/datepicker3.css" rel="stylesheet">
-
+<script src="/js/bootstrap-datepicker.js"></script>
+<script src="/js/bootstrap-datepicker.fr.js"></script>
+<script src="/js/atelier_details.js"></script>
 
 
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -46,66 +48,81 @@
 			<div role="tabpanel" class="tab-pane fade in active" id="home" aria-labelledBy="home-tab">
 				<p>
 					<div><strong>Nom: </strong>{{ atelier.nom }}</div>
-					<div><strong>Date: </strong><span id="date">{{ atelier.date}}</span></div>
-
 					<div><strong>Type: </strong>{{ atelier.type }}</div>
 					<div><strong>Durée: </strong><span id ="duree"></span></div>
+
+
 					<div><strong>Laboratoire: </strong>{{ atelier.laboratoire }}</div>
-					<div><strong>Capacité: </strong>{{ atelier.capacite }}</div>
-				</div>
+					<div><strong>Places restantes: </strong>{{ atelier.placesRestantes }}</div>
 
+					<span><strong>Thème(s): </strong></span>
+					<ul>
+						{% for theme_item in atelier.theme %}
+						<li>{{ theme_item }}</li>
+						{% endfor %}
+					</ul>
+					<span><strong>Public ciblé: </strong></span>
+					<ul>
+						{% for publiccible_item in atelier.publicCible %}
+						<li>{{ publiccible_item }}</li>
+						{% endfor %}
+					</ul>
+				</p>
+			</div>
+			<div role="tabpanel" class="tab-pane fade text-center" id="profile" aria-labelledBy="profile-tab">
 				
+				<p>Horaires</p>
+				<div class="datepicker"></div>
 
+				<h4><mark>De <span id="start"></span> à <span id="end"></span></mark></h4>
 
-				<span><strong>Thème(s): </strong></span>
-				<ul>
-					{% for theme_item in atelier.theme %}
-					<li>{{ theme_item }}</li>
-					{% endfor %}
-				</ul>
-				<span><strong>Public ciblé: </strong></span>
-				<ul>
-					{% for publiccible_item in atelier.publicCible %}
-					<li>{{ publiccible_item }}</li>
-					{% endfor %}
-				</ul>
-			</p>
-		</div>
-		<div role="tabpanel" class="tab-pane fade " id="profile" aria-labelledBy="profile-tab">
-
-			<p>Horaires</p>
-			<div class="datepicker"></div>
+			</div>
 		</div>
 	</div>
-</div>
-<div>
 	<div>
-		<span><strong>Partenaires: </strong></span>
-		<ul>
-			{% for partenaire_item in atelier.partenaire %}
-			<li>{{ partenaire_item }}</li>
-			{% endfor %}
-		</ul>
-	</div>
-	<div class="col-sm-12 marg-top">
-		<div class="panel panel-primary">
-			<div class="panel-heading">
-				<h3 class="panel-title">Description</h3>
-			</div>
-			<div class="panel-body">
-				{{ atelier.description }}
+		<div>
+			<span><strong>Partenaires: </strong></span>
+			<ul>
+				{% for partenaire_item in atelier.partenaire %}
+				<li>{{ partenaire_item }}</li>
+				{% endfor %}
+			</ul>
+		</div>
+		<div class="col-sm-12 marg-top">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h3 class="panel-title">Description</h3>
+				</div>
+				<div class="panel-body">
+					{{ atelier.description }}
+				</div>
 			</div>
 		</div>
 	</div>
+	
+	<script type="text/javascript">
+		var date_creneau = dateDiff("{{atelier.date}}");
+		date_creneau = date_creneau.setHours(0);
+		$('.datepicker').datepicker({
+			language: 'fr',
+			format: "dd/mm/yyyy",
+			weekStart: 1,
+			startDate: "+d",
+			todayHighlight: true,
+			beforeShowDay: function (date){
+				if(date.setHours(0)  == date_creneau){
+					return {
+						enabled:true,
+						tooltip: 'Créneau disponible',
+						classes: 'active'
+					};
+				}
+			}
+		});
+	</script>
+	{% endfor %}
 </div>
 
 
-
-{% endfor %}
-</div>
-
-<script src="/js/bootstrap-datepicker.js"></script>
-<script src="/js/bootstrap-datepicker.fr.js"></script>
-<script src="/js/atelier_details.js"></script>
 
 {% endblock content%}

@@ -1,10 +1,14 @@
-function dateDiff(){
+function dateDiff(array_date){
 
-	date=$("#date").html().split(",");
+	date=array_date.split(",");
+
 
 	var date_creneau = date[0];
 	var debut_creneau = date[1];
 	var fin_creneau = date[2];
+
+	$("#start").html(debut_creneau);
+	$("#end").html(fin_creneau);
 
 	var timeStart = new Date(date[0]+" " + debut_creneau);
 	var timeEnd = new Date(date[0]+" " + fin_creneau);
@@ -30,15 +34,7 @@ function dateDiff(){
     	hour_disp = "";
     }
     $("#duree").html(hour_disp+ diff.min +" minutes");
+
+    return new Date(date_creneau);
 }
 
-
-$('.datepicker').datepicker({
-	language: 'fr',
-	format: "dd/mm/yyyy",
-	weekStart: 1,
-	startDate: "+d"
-}
-);
-
-dateDiff();
