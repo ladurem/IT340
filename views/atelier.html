@@ -41,7 +41,16 @@
 		</li>
 	</ul>
 	<div class="col-sm-6">
-		<div id="map_canvas"></div>
+
+{% if atelier.lieu  != '' %}
+
+		<iframe  height="250" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBR2h8tUrebSMYpdbGxiG7XE6JGAkixblY&q={{ atelier.lieu|url_encode }}"></iframe>
+		{% else %}
+		<h3>Localisation impossible</h3>
+		<img width="250" src="http://www.chat-mignon.com/photos/mignon-chaton.jpg" alt="chat mignon" />
+{% endif%}
+
+
 	</div>
 	<div class="col-sm-6">
 		<div id="tab_details" class="tab-content">

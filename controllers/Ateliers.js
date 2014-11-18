@@ -5,7 +5,6 @@
  var mongoose = require('mongoose')
  var Atelier = mongoose.model('Atelier')
 
-
 /**
  * Liste des ateliers
  */
