@@ -13,6 +13,7 @@ if (!module.parent) {
 
 app.use(express.cookieParser('connect'));
 app.use(express.bodyParser());
+
 // This is where all the magic happens!
 app.engine('html', swig.renderFile);
 
@@ -62,6 +63,23 @@ app.get('/get',function(req,res){
 			res.end('Console');
 		}
 	})
+});
+
+app.get('/admin',function(req,res){
+
+	if(req.cookies.login ==''){
+		//Non connecté - on le connecte
+	var minute = 60 * 120 * 1000;//duree de vie du cookie
+	res.cookie('login', "admin", { maxAge: minute});
+	res.redirect('/ateliers');
+}else {
+		//Connecté -- on le déconnecte
+	var minute = 60 * 120 * 1000;//duree de vie du cookie
+	res.cookie('login', "", { maxAge: minute});
+	res.redirect('/ateliers');
+}
+
+
 });
 
 
