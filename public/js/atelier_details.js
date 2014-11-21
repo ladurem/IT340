@@ -28,12 +28,21 @@ function dateDiff(array_date){
     var hour_disp = diff.hour;
 
     if (hour_disp > 0 ) { 
-    	hour_disp += " h et ";   
+        hour_disp += " heure";   
+        if (diff.hour>1)
+            hour_disp +="s";
     }
     else{
     	hour_disp = "";
     }
-    $("#duree").html(hour_disp+ diff.min +" minutes");
+    if(diff.min > 1 )
+        nb_min = " et "+diff.min+" minutes";
+    else if(diff.min > 0 )
+        nb_min = " et "+diff.min+" minute";
+    if(diff.min == 0)
+        nb_min= '';
+
+    $("#duree").html(hour_disp+ nb_min);
 
     return new Date(date_creneau);
 }
