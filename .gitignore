@@ -1,9 +1,8 @@
 node_modules/
-
 static/*
-
 public/js/ICanHaz.min.js
-
 views/index.html
-
 views/liste.mustache.html
+# Logs
+logs
+*.log
