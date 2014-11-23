@@ -83,7 +83,16 @@ app.get('/admin',function(req,res){
 });
 
 
-console.log("Server running listening on port 8080 ...");
+var env = process.argv[2] || 'dev';
+switch (env) {
+	case 'dev':
+	server.listen(8080);
+	console.log("Server running listening on port 8080 ...");
+	break;
+	case 'prod':
+	console.log("Server running listening on port 80 ...");
+	server.listen(80);
+	break;
+}
 
-server.listen(8080);
 
