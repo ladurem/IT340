@@ -12,6 +12,13 @@ function dateDiff(date_creneau,start,end){
     var diff = {}                           // Initialisation du retour
     var tmp = timeEnd - timeStart;
 
+    // SI le créneau termine le lendemain
+    if(tmp < 0){
+        timeEnd.setDate(timeEnd.getDate() + 1);
+        var tmp = timeEnd - timeStart;
+    }
+
+
     tmp = Math.floor(tmp/1000);             // Nombre de secondes entre les 2 dates
     diff.sec = tmp % 60;                    // Extraction du nombre de secondes
 
@@ -23,24 +30,27 @@ function dateDiff(date_creneau,start,end){
 
     var hour_disp = diff.hour;
     var min_disp = diff.min;
-
+    var et = " et ";
     if (hour_disp > 0 ) { 
 
         hour_disp += " heure";   
         if (diff.hour>1)
             hour_disp +="s";
     }
-    else
+    else{
     	hour_disp = "";
+        et="";
+    }
 
     if(diff.min > 1 )
-        nb_min = " et "+diff.min+" minutes";
+        min_disp = et+diff.min+" minutes";
     else if(diff.min > 0 )
-        nb_min = " et "+diff.min+" minute";
-    if(diff.min == 0)
-        nb_min= '';
+        min_disp = et+diff.min+" minute";
+    if(diff.min <= 0)
+        min_disp = '';
 
-    $("#duree").html(hour_disp+ nb_min);
+
+    $("#duree").html(hour_disp+ min_disp);
 
     return new Date(date_creneau);
 }
