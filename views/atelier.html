@@ -4,10 +4,10 @@
 {% block content %}
 
 <link href="/css/atelier_details.css" rel="stylesheet">
-<link id="bsdp-css" href="/css/datepicker3.css" rel="stylesheet">
-<script src="/js/bootstrap-datepicker.js"></script>
-<script src="/js/bootstrap-datepicker.fr.js"></script>
+<script src="/js/bootstrap-datetimepicker.js"></script>
+<script src="/js/bootstrap-datetimepicker.fr.js"></script>
 <script src="/js/atelier_details.js"></script>
+<link id="bsdp-css" href="/css/bootstrap-datetimepicker.css" rel="stylesheet">
 
 
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -43,7 +43,7 @@
 	<div class="col-sm-6">
 		<div id="map_canvas"></div>
 	</div>
-	<div class="col-sm-6">
+	<div class="col-sm-6 infos">
 		<div id="tab_details" class="tab-content">
 			<div role="tabpanel" class="tab-pane fade in active" id="home" aria-labelledBy="home-tab">
 				<p>
@@ -53,7 +53,7 @@
 
 
 					<div><strong>Laboratoire: </strong>{{ atelier.laboratoire }}</div>
-					<div><strong>Places restantes: </strong>{{ atelier.placesRestantes }}</div>
+					<div><strong>Capacité: </strong>{{ atelier.capacite }} personnes</div>
 
 					<span><strong>Thème(s): </strong></span>
 					<ul>
@@ -73,6 +73,7 @@
 				
 				<p>Horaires</p>
 				<div class="datepicker"></div>
+				<input size="16" type="text" value="20/11/2014 14:45" readonly class="datepicker">
 
 				<h4><mark>De <span id="start"></span> à <span id="end"></span></mark></h4>
 
@@ -101,25 +102,37 @@
 	</div>
 	
 	<script type="text/javascript">
-		var date_creneau = dateDiff("{{atelier.date}}");
-		date_creneau = date_creneau.setHours(0);
-		$('.datepicker').datepicker({
+		var creneau_tab = [];
+		{% for date in atelier.date %}
+		var date_creneau = dateDiff("{{date[0]}}","{{date[1]}}","{{date[2]}}");
+		creneau_tab.push(date_creneau);
+		{% endfor %}
+
+		$('.datepicker').datetimepicker({
 			language: 'fr',
-			format: "dd/mm/yyyy",
+			format: "dd/mm/yyyy hh:ii",
 			weekStart: 1,
-			startDate: "+d",
+			startDate: "+1d",
 			todayHighlight: true,
-			beforeShowDay: function (date){
-				if(date.setHours(0)  == date_creneau){
-					return {
-						enabled:true,
-						tooltip: 'Créneau disponible',
-						classes: 'active'
-					};
-				}
-			}
+			maxView:2,
+			// beforeShowDay: function (date){
+			// 	for (var i = creneau_tab.length - 1; i >= 0; i--) {
+					
+			// 		if(date.setHours(0)  == creneau_tab[i].setHours(0)){
+			// 			return {
+			// 				enabled:true,
+			// 				tooltip: 'Créneau disponible',
+			// 				classes: 'active'
+			// 			};
+			// 		}
+			// 	}	
+			// }
 		});
+
+
 	</script>
+
+
 	{% endfor %}
 </div>
 
