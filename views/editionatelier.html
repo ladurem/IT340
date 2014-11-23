@@ -46,18 +46,18 @@
     </div>
     <div id="navbar" class="navbar-collapse collapse">
      <ul class="nav navbar-nav">
-      <li class="active"><a href="#">Accueil</a></li>
-      <li class=""><a href="#">Informations Pratiques</a></li>
-      <li class=""><a href="#">Demande de subvention</a></li>
-      <li class=""><a href="#">Metier de la recherche</a></li>
-    </ul>
-  </div>
-</div>
+       <li class="active"><a href="/ateliers">Accueil</a></li>
+       <li class=""><a href="#">Informations Pratiques</a></li>
+       <li class=""><a href="#">Demande de subvention</a></li>
+       <li class=""><a href="#">Metier de la recherche</a></li>
+     </ul>
+   </div>
+ </div>
 </nav>
 <div class="container">
   <div class="row clearfix">
     <div class="col-md-12 column">
-          {% for atelier in edit %}
+      {% for atelier in edit %}
       <form class="form-horizontal" action="/atelier/{{atelier.id}}" method="POST">
         <fieldset>
 
@@ -126,7 +126,7 @@
 
           <!-- Textarea -->
           <div class="form-group">
-            <label class="col-md-2 control-label" for="lieu">Lieu</label>
+            <label class="col-md-2 control-label" for="lieu">Adresse complète</label>
             <div class="col-md-8">                     
               <textarea class="form-control" id="lieu"  name="lieu">{{ atelier.lieu }}</textarea>
             </div>
@@ -155,32 +155,32 @@
          <div class="form-group">
           <label class="col-md-2 control-label" for="partenaires">Partenaires</label>  
           <div class="col-md-8 ajoutpartenaire">
-          {% for partenaire in atelier.partenaire %}
-           <input id="partenaires" name="partenaires[]" value="{{partenaire}}" type="text" placeholder="" class="form-control input-md" >
-           {% endfor %}
-         </div>
-         <a  class="ajouterpartenaire" href="">Ajouter</a>
-       </div>
-       <!-- Textarea -->
-       <div class="form-group">
-        <label class="col-md-2 control-label" for="description">Description atelier</label>
-        <div class="col-md-8">                     
-          <textarea class="form-control" id="description" name="description">{{ atelier.description }}</textarea>
+            {% for partenaire in atelier.partenaire %}
+            <input id="partenaires" name="partenaires[]" value="{{partenaire}}" type="text" placeholder="" class="form-control input-md" >
+            {% endfor %}
+          </div>
+          <a  class="ajouterpartenaire" href="">Ajouter</a>
         </div>
-      </div>
-
-      <!-- Button -->
-      <div class="form-group">
-        <label class="col-md-2 control-label" for=""></label>
-        <div class="col-md-8">
-          <button id="" name="" class="btn btn-primary">Envoyer</button>
+        <!-- Textarea -->
+        <div class="form-group">
+          <label class="col-md-2 control-label" for="description">Description atelier</label>
+          <div class="col-md-8">                     
+            <textarea class="form-control" id="description" name="description">{{ atelier.description }}</textarea>
+          </div>
         </div>
-      </div>
-      {% endfor %}
-    </fieldset>
-  </form>
 
-</div>
+        <!-- Button -->
+        <div class="form-group">
+          <label class="col-md-2 control-label" for=""></label>
+          <div class="col-md-8">
+            <button id="" name="" class="btn btn-primary">Envoyer</button>
+          </div>
+        </div>
+        {% endfor %}
+      </fieldset>
+    </form>
+
+  </div>
 </div>
 </div>
 {% endblock %}

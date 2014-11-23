@@ -25,19 +25,22 @@ function dateDiff(date_creneau,start,end){
     var min_disp = diff.min;
 
     if (hour_disp > 0 ) { 
-    	hour_disp += " h";   
+
+        hour_disp += " heure";   
+        if (diff.hour>1)
+            hour_disp +="s";
     }
     else
     	hour_disp = "";
 
-    if (min_disp > 0){
-    	min_disp =" et "+min_disp+ " minutes";    	
-    }
-    else{
-    	min_disp="";
-    }
+    if(diff.min > 1 )
+        nb_min = " et "+diff.min+" minutes";
+    else if(diff.min > 0 )
+        nb_min = " et "+diff.min+" minute";
+    if(diff.min == 0)
+        nb_min= '';
 
-    $("#duree").html(hour_disp+ min_disp);
+    $("#duree").html(hour_disp+ nb_min);
 
     return new Date(date_creneau);
 }
