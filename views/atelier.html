@@ -47,7 +47,7 @@
 		<iframe  height="250" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBR2h8tUrebSMYpdbGxiG7XE6JGAkixblY&q={{ atelier.lieu|url_encode }}"></iframe>
 		{% else %}
 		<h3>Localisation impossible</h3>
-			{% endif%}
+		{% endif%}
 
 
 	</div>
@@ -115,74 +115,86 @@
 		var dates =[];
 		var dates_debut = [];
 		var dates_fin = [];
-		var date_creneau;
+
+		var durees=[];
 
 		{% for date in atelier.date %}
 
-		// On sépare les dates et les horaires
+        // On sépare les dates et les horaires
 
-		dates.push("{{date[0]}}".split(","));
-		dates_debut.push("{{date[1]}}".split(","));
-		dates_fin.push("{{date[2]}}".split(","));
-		{% endfor %}
+        dates.push("{{date[0]}}".split(","));
+        dates_debut.push("{{date[1]}}".split(","));
+        dates_fin.push("{{date[2]}}".split(","));
 
-		for (var i = dates.length - 1; i >= 0; i--) {
-			date_creneau = dateDiff(dates[i],dates_debut[i],dates_fin[i]);
-			creneau_tab.push(date_creneau);
-		}
+        {% endfor %}
 
-		$('.datepicker').datepicker({
-			language: 'fr',
-			format: "dd/mm/yyyy hh:ii",
-			weekStart: 1,
-			startDate: "+d",
-			todayHighlight: true,
-			maxView:2,
+        //On stocke les dates des créneaux dans un tableau
 
-			// Pour mettre en surbrillance les dates
-			beforeShowDay: function (date){
-				for (var i = creneau_tab.length - 1; i >= 0; i--) {
+        for (var i = dates.length - 1; i >= 0; i--) {
 
-					if(date.setHours(0)  == creneau_tab[i].setHours(0) ){
-						
-						return {
-							enabled:true,
-							tooltip: 'Créneau disponible',
-							classes: 'active'
-						};
+        	creneau_tab.push(new Date(dates[i]));
 
+        	//Pour calculer la durée totale de l'atelier
+        	durees.push(getDureeCreneaux(dates[i],dates_debut[i],dates_fin[i]));
+        	affichageDuree(durees);
 
-					}
-				}	
-			}
-		})
-		// On cherche à afficher les créneaux des dates en surbrillance
-		.on("changeDate", function(date){
-			var date_selected = new Date($('.datepicker').datepicker('getDates')).setHours(0);
-			$("#creneau").html("");
-			var creneaux_selected = [];
-			for (var i = creneau_tab.length - 1; i >= 0; i--) {
+        }
 
-				if(date_selected  == new Date(creneau_tab[i]).setHours(0)){
+        $('.datepicker').datepicker({
+        	language: 'fr',
+        	format: "dd/mm/yyyy hh:ii",
+        	weekStart: 1,
+        	todayHighlight: true,
+        	maxView:2,
 
-					creneaux_selected.push(dates_debut[i]);
-					$("#creneau").html("Créneaux :");
-				}
-			}
+            // Pour mettre en surbrillance les dates
+            beforeShowDay: function (date){
+            	for (var i = creneau_tab.length - 1; i >= 0; i--) {
 
-			// On affiche les créneaux disponibles
-			for (var i = creneaux_selected.length - 1; i >= 0; i--) {
-				$("#creneau").append(" "+creneaux_selected[i]);
-			};
+            		if(date.setHours(0)  == creneau_tab[i].setHours(0) ){
+
+            			return {
+            				enabled:true,
+            				tooltip: 'Créneau disponible',
+            				classes: 'active'
+            			};
 
 
-		});
+            		}
+            	}   
+            }
+        })
+        // On cherche à afficher les créneaux des dates en surbrillance
+        .on("changeDate", function(date){
+        	var date_selected = new Date($('.datepicker').datepicker('getDates')).setHours(0);
+        	$("#creneau").html("");
+
+        	var creneaux_selected = [];
+
+        	for (var i = creneau_tab.length - 1; i >= 0; i--) {
+
+        		if(date_selected  == new Date(creneau_tab[i]).setHours(0)){
+
+        			creneaux_selected.push(dates_debut[i]);
+        			$("#creneau").html("Créneaux :");
 
 
-	</script>
+        		}
+        	}
+
+            // On affiche les créneaux disponibles
+            for (var i = creneaux_selected.length - 1; i >= 0; i--) {
+            	$("#creneau").append(" "+creneaux_selected[i]);
+            };
 
 
-	{% endfor %}
+        });
+
+
+    </script>
+
+
+    {% endfor %}
 </div>
 
 
