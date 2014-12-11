@@ -102,7 +102,8 @@
 	
 	<script type="text/javascript">
 		var date_creneau = dateDiff("{{atelier.date}}");
-		date_creneau = date_creneau.setHours(0);
+		$("#duree").html(date_creneau[0] + date_creneau[1] +" minutes");
+		date_creneau = date_creneau[2].setHours(0);
 		$('.datepicker').datepicker({
 			language: 'fr',
 			format: "dd/mm/yyyy",

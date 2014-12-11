@@ -33,8 +33,7 @@ function dateDiff(array_date){
     else{
     	hour_disp = "";
     }
-    $("#duree").html(hour_disp+ diff.min +" minutes");
 
-    return new Date(date_creneau);
+    return [hour_disp, diff.min, new Date(date_creneau)];
 }
 

@@ -5,6 +5,15 @@
 {% block head %}
 <script type="text/javascript">
   $(document).ready(function() {
+      $(".time").each(function() {
+        tDate = $(this).data("tdate");
+        tStart = $(this).data("tstart");
+        tEnd = $(this).data("tend");
+        start = moment(tDate+'T'+tStart);
+        end = moment(tDate+'T'+tEnd);
+        diff = moment(end-start).format("h [h] mm [min]");
+        $(this).html(diff);
+      });
       $(".edit_atelier").click(function() {
         window.location.href= '/atelier/'+$(this).data("id")+'/edit';
       });
@@ -81,7 +90,7 @@
   					</ul>
   				</div>
   				<div class="col-xs-6">
-  					<span><strong>Durée: </strong></span>{{ atelier.duree }} <br/>
+  					<span><strong>Durée: </strong></span><span class="time" data-tdate="{{ atelier.date[0][0] }}" data-tstart="{{ atelier.date[0][1] }}" data-tend="{{ atelier.date[0][2] }}">{{ atelier.date[0][1]+" - "+atelier.date[0][2]}} </span><br/>
   					<span><strong>Laboratoire: </strong></span>{{ atelier.laboratoire }}
   				</div>
   			</div>
