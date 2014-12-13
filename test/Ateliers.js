@@ -1,3 +1,4 @@
+process.env.NODE_ENV = 'test';
 require('../models/Atelier');
 
 var should   = require('should'),
@@ -12,6 +13,7 @@ var count;
 describe('Ateliers tests', function() {
   var url = 'http://localhost:8080';
   before(function(done) {
+    this.server = require('http').createServer(app).listen(8080);
     var atelier = new Atelier({
       nom:             "Atelier1",
       type:            "Atelier Scientifique",
@@ -234,6 +236,7 @@ describe('Ateliers tests', function() {
       agent
         .del('/atelier/'+atelierToDelete._id)
         .set('Accept', 'application/json')
+        .set('Cookie','login=')
         .expect('Content-Type', /json/)
         .expect(200)
         .end(done);
@@ -271,9 +274,12 @@ describe('Ateliers tests', function() {
 
   
   after(function (done) {
+    var server = this.server
     mongoose.connection.db.executeDbCommand({ dropDatabase:1 }, function (err, result) {
-      mongoose.connection.close(done);
+      mongoose.connection.close();
+      server.close(done);
     });
+    
   });
 
 });
