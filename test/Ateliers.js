@@ -10,7 +10,7 @@ var should   = require('should'),
 
 var count;
 
-describe('Ateliers tests', function() {
+describe('API tests', function() {
   var url = 'http://localhost:8080';
   before(function(done) {
     this.server = require('http').createServer(app).listen(8080);
