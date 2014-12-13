@@ -6,7 +6,7 @@
 <link href="/css/atelier_details.css" rel="stylesheet">
 <script src="/js/bootstrap-datepicker.js"></script>
 <script src="/js/bootstrap-datepicker.fr.js"></script>
-<script src="/js/atelier_details.js"></script>
+
 <link id="bsdp-css" href="/css/datepicker.css" rel="stylesheet">
 
 
@@ -47,7 +47,7 @@
 		<iframe  height="250" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBR2h8tUrebSMYpdbGxiG7XE6JGAkixblY&q={{ atelier.lieu|url_encode }}"></iframe>
 		{% else %}
 		<h3>Localisation impossible</h3>
-			{% endif%}
+		{% endif%}
 
 
 	</div>
@@ -109,80 +109,30 @@
 		</div>
 	</div>
 	
-	<!-- Crréneaux -->
+	<!-- Créneaux -->
 	<script type="text/javascript">
-		var creneau_tab = [];
+		
 		var dates =[];
 		var dates_debut = [];
 		var dates_fin = [];
-		var date_creneau;
 
 		{% for date in atelier.date %}
 
-		// On sépare les dates et les horaires
+        // On sépare les dates et les horaires
 
-		dates.push("{{date[0]}}".split(","));
-		dates_debut.push("{{date[1]}}".split(","));
-		dates_fin.push("{{date[2]}}".split(","));
-		{% endfor %}
+        dates.push("{{date[0]}}".split(","));
+        dates_debut.push("{{date[1]}}".split(","));
+        dates_fin.push("{{date[2]}}".split(","));
 
-		for (var i = dates.length - 1; i >= 0; i--) {
-			date_creneau = dateDiff(dates[i],dates_debut[i],dates_fin[i]);
-			creneau_tab.push(date_creneau);
-		}
+        {% endfor %}
 
-		$('.datepicker').datepicker({
-			language: 'fr',
-			format: "dd/mm/yyyy hh:ii",
-			weekStart: 1,
-			startDate: "+d",
-			todayHighlight: true,
-			maxView:2,
+   
 
-			// Pour mettre en surbrillance les dates
-			beforeShowDay: function (date){
-				for (var i = creneau_tab.length - 1; i >= 0; i--) {
-
-					if(date.setHours(0)  == creneau_tab[i].setHours(0) ){
-						
-						return {
-							enabled:true,
-							tooltip: 'Créneau disponible',
-							classes: 'active'
-						};
+    </script>
+	<script src="/js/atelier_details.js"></script>
 
 
-					}
-				}	
-			}
-		})
-		// On cherche à afficher les créneaux des dates en surbrillance
-		.on("changeDate", function(date){
-			var date_selected = new Date($('.datepicker').datepicker('getDates')).setHours(0);
-			$("#creneau").html("");
-			var creneaux_selected = [];
-			for (var i = creneau_tab.length - 1; i >= 0; i--) {
-
-				if(date_selected  == new Date(creneau_tab[i]).setHours(0)){
-
-					creneaux_selected.push(dates_debut[i]);
-					$("#creneau").html("Créneaux :");
-				}
-			}
-
-			// On affiche les créneaux disponibles
-			for (var i = creneaux_selected.length - 1; i >= 0; i--) {
-				$("#creneau").append(" "+creneaux_selected[i]);
-			};
-
-
-		});
-
-
-	</script>
-
-
-	{% endfor %}
+    {% endfor %}
 </div>
 
 
