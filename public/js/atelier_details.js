@@ -1,20 +1,23 @@
-function dateDiff(array_date){
+function dateDiff(date_creneau,start,end){
 
-	date=array_date.split(",");
+    var debut_creneau = start;
+    var fin_creneau = end;
 
+    $("#start").html(debut_creneau);
+    $("#end").html(fin_creneau);
 
-	var date_creneau = date[0];
-	var debut_creneau = date[1];
-	var fin_creneau = date[2];
-
-	$("#start").html(debut_creneau);
-	$("#end").html(fin_creneau);
-
-	var timeStart = new Date(date[0]+" " + debut_creneau);
-	var timeEnd = new Date(date[0]+" " + fin_creneau);
+    var timeStart = new Date(date_creneau+" " + debut_creneau);
+    var timeEnd = new Date(date_creneau+" " + fin_creneau);
 
     var diff = {}                           // Initialisation du retour
     var tmp = timeEnd - timeStart;
+
+    // SI le créneau termine le lendemain
+    if(tmp < 0){
+        timeEnd.setDate(timeEnd.getDate() + 1);
+        var tmp = timeEnd - timeStart;
+    }
+
 
     tmp = Math.floor(tmp/1000);             // Nombre de secondes entre les 2 dates
     diff.sec = tmp % 60;                    // Extraction du nombre de secondes
@@ -26,14 +29,28 @@ function dateDiff(array_date){
     diff.hour = tmp % 24;                   // Extraction du nombre d'heures
 
     var hour_disp = diff.hour;
-
+    var min_disp = diff.min;
+    var et = " et ";
     if (hour_disp > 0 ) { 
-    	hour_disp += " h et ";   
+
+        hour_disp += " heure";   
+        if (diff.hour>1)
+            hour_disp +="s";
     }
     else{
-    	hour_disp = "";
+        hour_disp = "";
+        et="";
     }
 
-    return [hour_disp, diff.min, new Date(date_creneau)];
-}
+    if(diff.min > 1 )
+        min_disp = et+diff.min+" minutes";
+    else if(diff.min > 0 )
+        min_disp = et+diff.min+" minute";
+    if(diff.min <= 0)
+        min_disp = '';
 
+
+    $("#duree").html(hour_disp+ min_disp);
+
+    return new Date(date_creneau);
+}

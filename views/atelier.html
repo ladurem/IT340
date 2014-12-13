@@ -4,10 +4,10 @@
 {% block content %}
 
 <link href="/css/atelier_details.css" rel="stylesheet">
-<link id="bsdp-css" href="/css/datepicker3.css" rel="stylesheet">
 <script src="/js/bootstrap-datepicker.js"></script>
 <script src="/js/bootstrap-datepicker.fr.js"></script>
 <script src="/js/atelier_details.js"></script>
+<link id="bsdp-css" href="/css/datepicker.css" rel="stylesheet">
 
 
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -41,9 +41,17 @@
 		</li>
 	</ul>
 	<div class="col-sm-6">
-		<div id="map_canvas"></div>
+
+		{% if atelier.lieu  != '' %}
+
+		<iframe  height="250" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBR2h8tUrebSMYpdbGxiG7XE6JGAkixblY&q={{ atelier.lieu|url_encode }}"></iframe>
+		{% else %}
+		<h3>Localisation impossible</h3>
+			{% endif%}
+
+
 	</div>
-	<div class="col-sm-6">
+	<div class="col-sm-6 infos">
 		<div id="tab_details" class="tab-content">
 			<div role="tabpanel" class="tab-pane fade in active" id="home" aria-labelledBy="home-tab">
 				<p>
@@ -53,7 +61,9 @@
 
 
 					<div><strong>Laboratoire: </strong>{{ atelier.laboratoire }}</div>
-					<div><strong>Places restantes: </strong>{{ atelier.placesRestantes }}</div>
+
+					<div><strong>Capacite: </strong>{{ atelier.capacite }}</div>
+					<div><strong>Places restantes: </strong>{{ atelier.capacite }}</div>
 
 					<span><strong>Thème(s): </strong></span>
 					<ul>
@@ -73,8 +83,7 @@
 				
 				<p>Horaires</p>
 				<div class="datepicker"></div>
-
-				<h4><mark>De <span id="start"></span> à <span id="end"></span></mark></h4>
+				<h4><span id ="creneau"></span></h4>
 
 			</div>
 		</div>
@@ -100,27 +109,79 @@
 		</div>
 	</div>
 	
+	<!-- Crréneaux -->
 	<script type="text/javascript">
-		var date_creneau = dateDiff("{{atelier.date}}");
-		$("#duree").html(date_creneau[0] + date_creneau[1] +" minutes");
-		date_creneau = date_creneau[2].setHours(0);
+		var creneau_tab = [];
+		var dates =[];
+		var dates_debut = [];
+		var dates_fin = [];
+		var date_creneau;
+
+		{% for date in atelier.date %}
+
+		// On sépare les dates et les horaires
+
+		dates.push("{{date[0]}}".split(","));
+		dates_debut.push("{{date[1]}}".split(","));
+		dates_fin.push("{{date[2]}}".split(","));
+		{% endfor %}
+
+		for (var i = dates.length - 1; i >= 0; i--) {
+			date_creneau = dateDiff(dates[i],dates_debut[i],dates_fin[i]);
+			creneau_tab.push(date_creneau);
+		}
+
 		$('.datepicker').datepicker({
 			language: 'fr',
-			format: "dd/mm/yyyy",
+			format: "dd/mm/yyyy hh:ii",
 			weekStart: 1,
 			startDate: "+d",
 			todayHighlight: true,
+			maxView:2,
+
+			// Pour mettre en surbrillance les dates
 			beforeShowDay: function (date){
-				if(date.setHours(0)  == date_creneau){
-					return {
-						enabled:true,
-						tooltip: 'Créneau disponible',
-						classes: 'active'
-					};
+				for (var i = creneau_tab.length - 1; i >= 0; i--) {
+
+					if(date.setHours(0)  == creneau_tab[i].setHours(0) ){
+						
+						return {
+							enabled:true,
+							tooltip: 'Créneau disponible',
+							classes: 'active'
+						};
+
+
+					}
+				}	
+			}
+		})
+		// On cherche à afficher les créneaux des dates en surbrillance
+		.on("changeDate", function(date){
+			var date_selected = new Date($('.datepicker').datepicker('getDates')).setHours(0);
+			$("#creneau").html("");
+			var creneaux_selected = [];
+			for (var i = creneau_tab.length - 1; i >= 0; i--) {
+
+				if(date_selected  == new Date(creneau_tab[i]).setHours(0)){
+
+					creneaux_selected.push(dates_debut[i]);
+					$("#creneau").html("Créneaux :");
 				}
 			}
+
+			// On affiche les créneaux disponibles
+			for (var i = creneaux_selected.length - 1; i >= 0; i--) {
+				$("#creneau").append(" "+creneaux_selected[i]);
+			};
+
+
 		});
+
+
 	</script>
+
+
 	{% endfor %}
 </div>
 

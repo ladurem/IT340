@@ -13,6 +13,7 @@ if (!module.parent) {
 
 app.use(express.cookieParser('connect'));
 app.use(express.bodyParser());
+
 // This is where all the magic happens!
 app.engine('html', swig.renderFile);
 
@@ -64,8 +65,37 @@ app.get('/get',function(req,res){
 	})
 });
 
+app.get('/admin',function(req,res){
 
-console.log("Server running listening on port 8080 ...");
+	if(req.cookies.login ==''){
+		//Non connecté - on le connecte
+	var minute = 60 * 120 * 1000;//duree de vie du cookie
+	res.cookie('login', "admin", { maxAge: minute});
+	res.redirect('/ateliers');
+}else {
+		//Connecté -- on le déconnecte
+	var minute = 60 * 120 * 1000;//duree de vie du cookie
+	res.cookie('login', "", { maxAge: minute});
+	res.redirect('/ateliers');
+}
 
-server.listen(8080);
+
+});
+
+
+var env = process.argv[2] || process.env.NODE_ENV || 'dev';
+switch (env) {
+	case 'dev':
+	server.listen(8080);
+	console.log("Server running listening on port 8080 ...");
+	break;
+	case 'prod':
+	console.log("Server running listening on port 80 ...");
+	server.listen(80);
+	break;
+	case 'test':
+	console.log("Server running in test mode");
+	break;
+}
+
 

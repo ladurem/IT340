@@ -4,31 +4,71 @@
 
 {% block head %}
 <script type="text/javascript">
+  function getCookie(name){
+    if(document.cookie.length == 0)
+      return null;
+    var regSepCookie = new RegExp('(; )', 'g');
+    var cookies = document.cookie.split(regSepCookie);
+    for(var i = 0; i < cookies.length; i++){
+      var regInfo = new RegExp('=', 'g');
+      var infos = cookies[i].split(regInfo);
+      if(infos[0] == name){
+        return unescape(infos[1]);
+
+      }
+    }
+    return null;
+  }
+
   $(document).ready(function() {
-      $(".time").each(function() {
-        tDate = $(this).data("tdate");
-        tStart = $(this).data("tstart");
-        tEnd = $(this).data("tend");
-        start = moment(tDate+'T'+tStart);
-        end = moment(tDate+'T'+tEnd);
-        diff = moment(end-start).format("h [h] mm [min]");
-        $(this).html(diff);
-      });
-      $(".edit_atelier").click(function() {
-        window.location.href= '/atelier/'+$(this).data("id")+'/edit';
-      });
-      $(".remove_atelier").click(function() {
-        $.ajax({
-          url: '/atelier/'+$(this).data("id"),
-          type: 'DELETE',
-          success: function(result) {
-            if (confirm("Voulez-vous vraiment supprimer cet atelier ?")) {
-              $(".atelier-container").load("/ateliers .atelier-container .content")
-            }
+    $(".edit_atelier").click(function() {
+      window.location.href= '/atelier/'+$(this).data("id")+'/edit';
+    });
+    $(".remove_atelier").click(function() {
+      $.ajax({
+        url: '/atelier/'+$(this).data("id"),
+        type: 'DELETE',
+        success: function(result) {
+          if (confirm("Voulez-vous vraiment supprimer cet atelier ?")) {
+            $(".atelier-container").load("/ateliers .atelier-container .content")
           }
-        });
+        }
       });
     });
+  });
+  var map;
+  var elevator;
+  $(document).ready(function () {
+    if (navigator.geolocation)
+      var watchId = navigator.geolocation.watchPosition(successCallback,null,{enableHighAccuracy:true});
+    else
+      alert("Votre navigateur ne prend pas en compte la géolocalisation HTML5");   
+
+    var myOptions = {
+      zoom: 15,
+      center: new google.maps.LatLng(0, 0),
+      mapTypeId: 'terrain'
+    };
+    map = new google.maps.Map($('#map_canvas')[0], myOptions);
+
+    //Localisation de l'utilisateur (uniquement pour l'afficher sur la carte)
+    function successCallback(position){
+      map.panTo(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
+      var marker = new google.maps.Marker({
+        position: new google.maps.LatLng(position.coords.latitude, position.coords.longitude), 
+        map: map,
+        icon:'/img/here.png',
+        title: "Vous"
+      }); 
+
+    }
+
+    if(getCookie('login') == '')
+      $("#connect").html("Se deconnecter")
+    else
+      $("#connect").html("Se connecter")
+
+  });
 </script>
 <style type="text/css">
   .edit_atelier, .remove_atelier {
@@ -50,57 +90,96 @@
       <a class="navbar-brand" href="/ateliers">Circuit Scientifique<!-- <img src="img/logo.png" /> --></a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
-    	<ul class="nav navbar-nav">
-   			<li class="active"><a href="/ateliers">Accueil</a></li>
-   			<li class=""><a href="#">Informations Pratiques</a></li>
-   			<li class=""><a href="#">Demande de subvention</a></li>
-   			<li class=""><a href="#">Metier de la recherche</a></li>
-   		</ul>
-    </div>
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="/ateliers">Accueil</a></li>
+        <li class=""><a href="#">Informations Pratiques</a></li>
+        <li class=""><a href="#">Demande de subvention</a></li>
+        <li class=""><a href="#">Metier de la recherche</a></li>
+        <li class=""><a id="connect" href="/admin">
+       
+
+      </a></li>
+    </ul>
   </div>
+</div>
 </nav>
 <div class="container">
-	<div class="row" id="toolbar">
-		<div class="col-md-8">
-			<h1>Liste des Ateliers</h1>
-		</div>
-		<div class="col-md-4" id="add-atelier-button">
-			<a href="/atelier/new" class="btn btn-success">Créer une fiche Atelier</a>
-		</div>
-	</div>
-	<div class="row ">
-		<div class="col-sm-6 atelier-container">
+  <div class="row" id="toolbar">
+    <div class="col-md-8">
+      <h1>Liste des Ateliers</h1>
+    </div>
+    <div class="col-md-4" id="add-atelier-button">
+      <a href="/atelier/new" class="btn btn-success">Créer une fiche Atelier</a>
+    </div>
+  </div>
+  <div class="row ">
+    <div class="col-sm-6 atelier-container">
       <div class="content">
-      {% for atelier in ateliers %}
-  			<div id="{{ atelier.nom|lower|replace('\s', '-') }}" class="row item-atelier">
-  				<div class="col-xs-8">
-  					<h3><a href="/atelier/{{ atelier.id }}">{{ atelier.nom }}</a></h3>
-          </div>
-          <div class="col-xs-4">   
-            <span data-id="{{ atelier.id }}" class="remove_atelier glyphicon glyphicon-remove-circle pull-right" style="padding-top:15px; font-size:14pt; margin-left:5px;"></span>
-            <span data-id="{{ atelier.id }}" class="edit_atelier glyphicon glyphicon-edit pull-right" style="padding-top:15px; font-size:14pt; margin-left:5px;"></span>
-            <span class="clearfix"></span>
-  				</div>
-  				<div class="col-xs-6">
-  					<span><strong>Thème: </strong></span>
-  					<ul>
-              {% for theme_item in atelier.theme %}
-  							<li>{{ theme_item }}</li>
-  						{% endfor %}
-  					</ul>
-  				</div>
-  				<div class="col-xs-6">
-  					<span><strong>Durée: </strong></span><span class="time" data-tdate="{{ atelier.date[0][0] }}" data-tstart="{{ atelier.date[0][1] }}" data-tend="{{ atelier.date[0][2] }}">{{ atelier.date[0][1]+" - "+atelier.date[0][2]}} </span><br/>
-  					<span><strong>Laboratoire: </strong></span>{{ atelier.laboratoire }}
-  				</div>
-  			</div>
-        <div class="spacer row"><div class="mask"></div></div>
-			{% endfor %}
+        {% for atelier in ateliers %}
+
+
+        <script>
+          $.getJSON('http://maps.googleapis.com/maps/api/geocode/json?address={{ atelier.lieu|url_encode }}&sensor=false', null, function (data) {
+            console.log(data);
+            var p = data.results[0].geometry.location
+            var latlng = new google.maps.LatLng(p.lat, p.lng);
+            var marker = new google.maps.Marker({
+              position: latlng,
+              map: map,
+              title:"Atelier",
+              labelContent: "$425K",
+           labelClass: "labels", // the CSS class for the label
+           labelStyle: {opacity: 0.75}
+         });
+
+            var iw1 = new google.maps.InfoWindow({
+             content: "{{ atelier.nom }}",
+             maxWidth: 200,
+             height:500
+           });
+            google.maps.event.addListener(marker, "click", function (e) { iw1.open(map, this); });
+
+          });
+
+
+        </script>
+
+
+        <div id="{{ atelier.nom|lower|replace('\s', '-') }}" class="row item-atelier">
+          <div class="col-xs-8">
+           <h3><a href="/atelier/{{ atelier.id }}">{{ atelier.nom }}</a></h3>
+         </div>
+         <div class="col-xs-4">   
+          <script>
+            if(getCookie('login') == ''){
+              document.write('<span data-id="{{ atelier.id }}" class="remove_atelier glyphicon glyphicon-remove-circle pull-right" style="padding-top:15px; font-size:14pt; margin-left:5px;"></span><span data-id="{{ atelier.id }}" class="edit_atelier glyphicon glyphicon-edit pull-right" style="padding-top:15px; font-size:14pt; margin-left:5px;"></span>');
+            }
+          </script><br />
+        </script>
+
+
+        <span class="clearfix"></span>
       </div>
-		</div>
-		<div class="col-sm-6">
-			<div id="map_canvas" class="map"></div>
-		</div>
-	</div>
+      <div class="col-xs-6">
+       <span><strong>Thème: </strong></span>
+       <ul>
+        {% for theme_item in atelier.theme %}
+        <li>{{ theme_item }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="col-xs-6">
+     <span><strong>Durée: </strong></span>{{ atelier.duree }} <br/>
+     <span><strong>Laboratoire: </strong></span>{{ atelier.laboratoire }}
+   </div>
+ </div>
+ <div class="spacer row"><div class="mask"></div></div>
+ {% endfor %}
+</div>
+</div>
+<div class="col-sm-6">
+ <div id="map_canvas" class="map"></div>
+</div>
+</div>
 </div>
 {% endblock %}
