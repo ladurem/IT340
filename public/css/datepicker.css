@@ -7,7 +7,7 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  *
  */
-.datepicker {
+ .datepicker {
   padding: 4px;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
@@ -15,9 +15,9 @@
   direction: ltr;
   /*.dow {
 		border-top: 1px solid #ddd !important;
-	}*/
-}
-.datepicker-inline {
+   }*/
+ }
+ .datepicker-inline {
   width: 220px;
 }
 .datepicker.datepicker-rtl {

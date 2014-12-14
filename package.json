@@ -1,18 +1,25 @@
 {
 	"name": "IT340",
-	"version": "0.0.1",
+	"version": "1.0.0",
 	"private": true,
+	"main": "app.js",
 	"scripts": {
-		"start": "nodejs app.js"
+		"start": "nodejs app.js",
+		"test": "mocha test/Ateliers.js"
 		},
-		"dependencies": {
-			"swig": "1.4.2",
-			"ent": "0.1.0",
-			"express": "3.3.8",
-			"mongoose": "3.8.9",
-			"mocha": "2.0",
-			"should": "4.3",
-			"supertest": "0.15",
-			"zombie": "2.2.*"
+		"repository": {
+			"type": "git",
+			"url": "http://github.com/ladurem/IT340/"
+			},
+			"dependencies": {
+				"swig": "1.4.2",
+				"ent": "0.1.0",
+				"express": "3.3.8",
+				"mongoose": "3.8.9",
+				"mocha": "2.0",
+				"should": "4.3",
+				"supertest": "0.15",
+				"zombie": "2.2.*"
+			}
 		}
-	}
+

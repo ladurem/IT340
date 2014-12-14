@@ -36,6 +36,7 @@ var ateliers = require('./controllers/Ateliers');
 /**
  * Routes
  */
+ app.get('/', ateliers.index);
 
  app.get('/ateliers', ateliers.index);
 
@@ -52,50 +53,37 @@ var ateliers = require('./controllers/Ateliers');
  app.post('/atelier/:id', ateliers.update);
 
 
+ app.get('/admin',function(req,res){
 
-//Fonction debug
-app.get('/get',function(req,res){
-	/**DebugFonction qui permet de lister la totalité de la base**/
-	mongoose.model('Atelier').find().exec(function(err, listeAtel){
-		if(err) console.error(err);
-		else{
-			console.log(listeAtel);
-			res.end('Console');
-		}
-	})
-});
-
-app.get('/admin',function(req,res){
-
-	if(req.cookies.login ==''){
+ 	if(req.cookies.login ==''){
 		//Non connecté - on le connecte
-	var minute = 60 * 120 * 1000;//duree de vie du cookie
-	res.cookie('login', "admin", { maxAge: minute});
-	res.redirect('/ateliers');
-}else {
+		var minute = 60 * 120 * 1000;
+		res.cookie('login', "admin", { maxAge: minute});
+		res.redirect('/ateliers');
+	}else {
 		//Connecté -- on le déconnecte
-	var minute = 60 * 120 * 1000;//duree de vie du cookie
-	res.cookie('login', "", { maxAge: minute});
-	res.redirect('/ateliers');
-}
+		var minute = 60 * 120 * 1000;
+		res.cookie('login', "", { maxAge: minute});
+		res.redirect('/ateliers');
+	}
 
 
 });
 
 
-var env = process.argv[2] || process.env.NODE_ENV || 'dev';
-switch (env) {
-	case 'dev':
-	server.listen(8080);
-	console.log("Server running listening on port 8080 ...");
-	break;
-	case 'prod':
-	console.log("Server running listening on port 80 ...");
-	server.listen(80);
-	break;
-	case 'test':
-	console.log("Server running in test mode");
-	break;
-}
+ var env = process.argv[2] || process.env.NODE_ENV || 'dev';
+ switch (env) {
+ 	case 'dev':
+ 	server.listen(8080);
+ 	console.log("Server running listening on port 8080 ...");
+ 	break;
+ 	case 'prod':
+ 	console.log("Server running listening on port 80 ...");
+ 	server.listen(80);
+ 	break;
+ 	case 'test':
+ 	console.log("Server running in test mode");
+ 	break;
+ }
 
 

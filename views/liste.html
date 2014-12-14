@@ -30,6 +30,7 @@
         type: 'DELETE',
         success: function(result) {
           if (confirm("Voulez-vous vraiment supprimer cet atelier ?")) {
+            console.log('OK');
             $(".atelier-container").load("/ateliers .atelier-container .content")
           }
         }
@@ -96,12 +97,12 @@
         <li class=""><a href="#">Demande de subvention</a></li>
         <li class=""><a href="#">Metier de la recherche</a></li>
         <li class=""><a id="connect" href="/admin">
-       
+         
 
-      </a></li>
-    </ul>
+        </a></li>
+      </ul>
+    </div>
   </div>
-</div>
 </nav>
 <div class="container">
   <div class="row" id="toolbar">
@@ -175,13 +176,13 @@
  </div>
  <div class="spacer row"><div class="mask"></div></div>
  
-<script type="text/javascript">
+ <script type="text/javascript">
 
   var dates =[];
   var dates_debut = [];
   var dates_fin = [];
 
-{% for date in atelier.date %}
+  {% for date in atelier.date %}
 
 // On sépare les dates et les horaires
 
@@ -193,31 +194,31 @@ dates_fin.push("{{date[2]}}".split(","));
 
 function getDureeCreneaux(date_creneau,start,end){
 
-    var timeStart = new Date(date_creneau+" " + start);
-    var timeEnd = new Date(date_creneau+" " + end);
+  var timeStart = new Date(date_creneau+" " + start);
+  var timeEnd = new Date(date_creneau+" " + end);
 
     // Initialisation du retour
     var tmp = timeEnd - timeStart;
 
     // SI le créneau termine le lendemain
     if(tmp < 0){
-        timeEnd.setDate(timeEnd.getDate() + 1);
-        var tmp = timeEnd - timeStart;
+      timeEnd.setDate(timeEnd.getDate() + 1);
+      var tmp = timeEnd - timeStart;
     }
 
     return tmp;
-}
+  }
 
-function affichageDuree (tmp) {
+  function affichageDuree (tmp) {
 
     if(tmp.length >= 0){
 
-        var somme = 0;
+      var somme = 0;
 
-        for (var i = tmp.length - 1; i >= 0; i--) {
-            somme=somme+tmp[i];
-        }
-        tmp=somme;
+      for (var i = tmp.length - 1; i >= 0; i--) {
+        somme=somme+tmp[i];
+      }
+      tmp=somme;
     }
 
     var diff = {} 
@@ -237,50 +238,50 @@ function affichageDuree (tmp) {
     var et = " et ";
     if (hour_disp > 0 ) { 
 
-        hour_disp += " heure";   
-        if (diff.hour>1)
-            hour_disp +="s";
+      hour_disp += " heure";   
+      if (diff.hour>1)
+        hour_disp +="s";
     }
     else{
-        hour_disp = "";
-        et="";
+      hour_disp = "";
+      et="";
     }
 
     if(diff.min > 1 )
-        min_disp = et+diff.min+" minutes";
+      min_disp = et+diff.min+" minutes";
     else if(diff.min > 0 )
-        min_disp = et+diff.min+" minute";
+      min_disp = et+diff.min+" minute";
     if(diff.min <= 0)
-        min_disp = '';
+      min_disp = '';
 
     $(".duree{{ atelier.id }}").html(hour_disp+ min_disp);
-}
+  }
 
-var creneau_tab = [];
-var durees=[];
+  var creneau_tab = [];
+  var durees=[];
 
     //On stocke les dates des créneaux dans un tableau
 
     for (var i = dates.length - 1; i >= 0; i--) {
 
-        creneau_tab.push(new Date(dates[i]));
+      creneau_tab.push(new Date(dates[i]));
 
             //Pour calculer la durée totale de l'atelier
             durees.push(getDureeCreneaux(dates[i],dates_debut[i],dates_fin[i]));
             affichageDuree(durees);
 
-        }
+          }
 
 
 
-</script>
+        </script>
 
- {% endfor %}
-</div>
-</div>
-<div class="col-sm-6">
- <div id="map_canvas" class="map"></div>
-</div>
-</div>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="col-sm-6">
+     <div id="map_canvas" class="map"></div>
+   </div>
+ </div>
 </div>
 {% endblock %}
