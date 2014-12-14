@@ -10,7 +10,7 @@
 	- public
 		fichiers statiques - CSS / JS
 	- test
-		Dossier de gestion des tests (unitaitres / EDE)
+		Dossier de gestion des tests (unitaitres / E2E)
 	- views
 		Vues utilisés par le site
 
@@ -21,7 +21,7 @@
 - Avoir mongoDB installé et en fonctionnement sur le port 27017
 - Dans le dossier du projet, executez  : `npm install`
 Le systeme va télécharger les dépendances du projet dans le dossier node_modules/
-	- Pour le bon foncitonnement des tests, l'installation de mocha doit se faire avec l'option -g :`npm install -g mocha`
+	- Pour le bon fonctionnement des tests, l'installation de mocha doit se faire avec l'option -g :`npm install -g mocha`
 
 ### Démarrage du service :
 - Lancement en "dev" sur le port 8080 : `node app.js`
